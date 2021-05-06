@@ -1,0 +1,2597 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "FINBOURNE Insights API",
+    "termsOfService": "https://www.finbourne.com/legal/terms-conditions",
+    "contact": {
+      "name": "FINBOURNE Technology",
+      "url": "https://www.finbourne.com",
+      "email": "info@finbourne.com"
+    },
+    "version": "0.0.193",
+    "x-logo": {
+      "url": "https://content.finbourne.com/LUSID-header.png",
+      "backgroundColor": "#415464"
+    },
+    "description": "FINBOURNE Technology"
+  },
+  "servers": [
+    {
+      "url": "https://www.lusid.com/insights"
+    }
+  ],
+  "paths": {
+    "/api/access": {
+      "get": {
+        "tags": [
+          "Access Evaluations"
+        ],
+        "summary": "[EXPERIMENTAL] List the logs for access evaluations.",
+        "operationId": "ListAccessEvaluationLogs",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
+            "schema": {
+              "maxLength": 2147483647,
+              "minLength": 0,
+              "pattern": "(?s).*",
+              "type": "string",
+              "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
+            "schema": {
+              "maxLength": 2147483647,
+              "minLength": 1,
+              "pattern": "(?s).*",
+              "type": "string",
+              "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
+            "schema": {
+              "maximum": 10000,
+              "minimum": 0,
+              "type": "integer",
+              "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
+              "format": "int32"
+            },
+            "x-nullable": true
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
+            "schema": {
+              "maxLength": 500,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\+/]*={0,3}$",
+              "type": "string",
+              "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "histogramInterval",
+            "in": "query",
+            "description": "The interval for an included histogram of the logs",
+            "schema": {
+              "type": "string",
+              "description": "The interval for an included histogram of the logs",
+              "format": "date-span",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfAccessEvaluationLog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfAccessEvaluationLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfAccessEvaluationLog"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/access/{id}": {
+      "get": {
+        "tags": [
+          "Access Evaluations"
+        ],
+        "summary": "[EXPERIMENTAL] Get the log for a specific access evaluation.",
+        "operationId": "GetAccessEvaluationLog",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the access evaluation to obtain the log for.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
+              "type": "string",
+              "description": "The identifier of the access evaluation to obtain the log for."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessEvaluationLog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessEvaluationLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessEvaluationLog"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/auditing/entries": {
+      "get": {
+        "tags": [
+          "Auditing"
+        ],
+        "summary": "[EXPERIMENTAL] Get the audit entries.",
+        "description": "This will never be {null}, though it may be empty.",
+        "operationId": "ListEntries",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "The filter to be applied to the results.",
+            "schema": {
+              "type": "string",
+              "description": "The filter to be applied to the results.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "The order to return the entries in.",
+            "schema": {
+              "type": "string",
+              "description": "The order to return the entries in.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The maximum number of entries to return.",
+            "schema": {
+              "type": "integer",
+              "description": "The maximum number of entries to return.",
+              "format": "int32",
+              "default": 1000
+            },
+            "x-nullable": true
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "The scrolling state, used to iterate through the data set.",
+            "schema": {
+              "type": "string",
+              "description": "The scrolling state, used to iterate through the data set.",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrollableCollectionOfAuditEntry"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      },
+      "post": {
+        "tags": [
+          "Auditing"
+        ],
+        "summary": "[EXPERIMENTAL] Create (persist) and audit entry..",
+        "operationId": "CreateEntry",
+        "requestBody": {
+          "description": "Information about the entry to be created.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuditEntry"
+              },
+              "example": {
+                "process": {
+                  "name": "processName",
+                  "runId": "processRunId",
+                  "startTime": "0001-01-01T00:00:00.0000000+00:00"
+                },
+                "data": {
+                  "action": "dataAction",
+                  "category": "dataCategory",
+                  "userId": "dataUserId",
+                  "message": "dataMessage",
+                  "resource": {
+                    "type": "resourceType",
+                    "identifier": "resourceIdentifier"
+                  },
+                  "detailsType": "dataDetailsType"
+                }
+              }
+            },
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuditEntry"
+              },
+              "example": {
+                "process": {
+                  "name": "processName",
+                  "runId": "processRunId",
+                  "startTime": "0001-01-01T00:00:00.0000000+00:00"
+                },
+                "data": {
+                  "action": "dataAction",
+                  "category": "dataCategory",
+                  "userId": "dataUserId",
+                  "message": "dataMessage",
+                  "resource": {
+                    "type": "resourceType",
+                    "identifier": "resourceIdentifier"
+                  },
+                  "detailsType": "dataDetailsType"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditEntry"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "There have been too many recent requests, retry later (using the RETRY-AFTER header value as the delay).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/auditing/processes": {
+      "get": {
+        "tags": [
+          "Auditing"
+        ],
+        "summary": "[EXPERIMENTAL] Get the latest audit entry for each process.",
+        "description": "This will never be {null}, though it may be empty.",
+        "operationId": "GetProcesses",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListOfAuditProcessSummary"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/metadata/access/resources": {
+      "get": {
+        "tags": [
+          "Application Metadata"
+        ],
+        "summary": "[EARLY ACCESS] Get resources available for access control",
+        "description": "Get the comprehensive set of resources that are available for access control",
+        "operationId": "ListAccessControlledResources",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListOfAccessControlledResource"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListOfAccessControlledResource"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListOfAccessControlledResource"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "EarlyAccess"
+      }
+    },
+    "/api/requests": {
+      "get": {
+        "tags": [
+          "Requests"
+        ],
+        "summary": "[EXPERIMENTAL] Get the logs for API requests.",
+        "operationId": "ListRequestLogs",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
+            "schema": {
+              "maxLength": 2147483647,
+              "minLength": 0,
+              "pattern": "(?s).*",
+              "type": "string",
+              "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
+            "schema": {
+              "maxLength": 2147483647,
+              "minLength": 1,
+              "pattern": "(?s).*",
+              "type": "string",
+              "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
+            "schema": {
+              "maximum": 10000,
+              "minimum": 0,
+              "type": "integer",
+              "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
+              "format": "int32"
+            },
+            "x-nullable": true
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
+            "schema": {
+              "maxLength": 500,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\+/]*={0,3}$",
+              "type": "string",
+              "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "histogramInterval",
+            "in": "query",
+            "description": "Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated.",
+            "schema": {
+              "type": "string",
+              "description": "Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated.",
+              "format": "date-span",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfRequestLog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfRequestLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfRequestLog"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/requests/{id}": {
+      "get": {
+        "tags": [
+          "Requests"
+        ],
+        "summary": "[EXPERIMENTAL] Get the log for a specific API request.",
+        "operationId": "GetRequestLog",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the request to obtain the log for.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
+              "type": "string",
+              "description": "The identifier of the request to obtain the log for."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestLog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestLog"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/requests/{id}/request": {
+      "get": {
+        "tags": [
+          "Requests"
+        ],
+        "summary": "[EXPERIMENTAL] Get the request content for a specific API request.",
+        "operationId": "GetRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the request to obtain the content for.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
+              "type": "string",
+              "description": "The identifier of the request to obtain the content for."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Request"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Request"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Request"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/requests/{id}/response": {
+      "get": {
+        "tags": [
+          "Requests"
+        ],
+        "summary": "[EXPERIMENTAL] Get the response for a specific API request.",
+        "operationId": "GetResponse",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the request to obtain the response for.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
+              "type": "string",
+              "description": "The identifier of the request to obtain the response for."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/vendor": {
+      "get": {
+        "tags": [
+          "Vendor Logs"
+        ],
+        "summary": "[EXPERIMENTAL] List the logs for vendor requests.",
+        "operationId": "ListVendorLogs",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
+            "schema": {
+              "maxLength": 2147483647,
+              "minLength": 0,
+              "pattern": "(?s).*",
+              "type": "string",
+              "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
+            "schema": {
+              "maxLength": 2147483647,
+              "minLength": 1,
+              "pattern": "(?s).*",
+              "type": "string",
+              "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
+            "schema": {
+              "maximum": 10000,
+              "minimum": 0,
+              "type": "integer",
+              "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
+              "format": "int32"
+            },
+            "x-nullable": true
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
+            "schema": {
+              "maxLength": 500,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\+/]*={0,3}$",
+              "type": "string",
+              "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "histogramInterval",
+            "in": "query",
+            "description": "Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated.",
+            "schema": {
+              "type": "string",
+              "description": "Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated.",
+              "format": "date-span",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfVendorLog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfVendorLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfVendorLog"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/vendor/{id}": {
+      "get": {
+        "tags": [
+          "Vendor Logs"
+        ],
+        "summary": "[EXPERIMENTAL] Get the log for a specific vendor request.",
+        "operationId": "GetVendorLog",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the request to obtain the log for.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
+              "type": "string",
+              "description": "The identifier of the request to obtain the log for."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorLog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorLog"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/vendor/{id}/request": {
+      "get": {
+        "tags": [
+          "Vendor Logs"
+        ],
+        "summary": "[EXPERIMENTAL] Get the request body for a vendor request.",
+        "operationId": "GetVendorRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the request to obtain the content for.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
+              "type": "string",
+              "description": "The identifier of the request to obtain the content for."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorRequest"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorRequest"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/vendor/{id}/response": {
+      "get": {
+        "tags": [
+          "Vendor Logs"
+        ],
+        "summary": "[EXPERIMENTAL] Get the response from a vendor request.",
+        "operationId": "GetVendorResponse",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the request to obtain the response for.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
+              "type": "string",
+              "description": "The identifier of the request to obtain the response for."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Bucket": {
+        "type": "object",
+        "properties": {
+          "startTime": {
+            "type": "string",
+            "description": "The bucket's start time as a DateTimeOffset.",
+            "format": "date-time"
+          },
+          "itemCount": {
+            "type": "integer",
+            "description": "The number of items in the bucket.",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A single histogram bucket."
+      },
+      "Histogram": {
+        "type": "object",
+        "properties": {
+          "buckets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Bucket"
+            },
+            "description": "An ordered list of the histogram buckets.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A histogram showing an item's count in buckets of equal timespans."
+      },
+      "Link": {
+        "required": [
+          "href",
+          "method",
+          "relation"
+        ],
+        "type": "object",
+        "properties": {
+          "relation": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "method": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccessEvaluationLog": {
+        "required": [
+          "application",
+          "duration",
+          "id",
+          "timestamp",
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "description": "The timestamp of the access evaluation.",
+            "format": "date-time"
+          },
+          "application": {
+            "type": "string",
+            "description": "The name of the application that the request was made from."
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the access evaluation."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "The identifier of the request.",
+            "nullable": true
+          },
+          "sessionId": {
+            "type": "string",
+            "description": "The identifier of the session that the request was made in.",
+            "nullable": true
+          },
+          "user": {
+            "type": "string",
+            "description": "The user who made the request."
+          },
+          "userType": {
+            "type": "string",
+            "description": "The type of the user who made the request.",
+            "nullable": true
+          },
+          "duration": {
+            "type": "number",
+            "description": "The duration of the access evaluation.",
+            "format": "double"
+          },
+          "result": {
+            "type": "string",
+            "description": "The result of the access evaluation.",
+            "nullable": true
+          },
+          "authoritativeRoleId": {
+            "type": "string",
+            "description": "The role that matched the access evaluation to provide a result.",
+            "nullable": true
+          },
+          "authoritativePolicyId": {
+            "type": "string",
+            "description": "The policy that matched the access evaluation to provide a result.",
+            "nullable": true
+          },
+          "authoritativeSelector": {
+            "type": "string",
+            "description": "The selector that matched the access evaluation to provide a result.",
+            "nullable": true
+          },
+          "resourceType": {
+            "type": "string",
+            "description": "The type of the resource that the access evaluation is for.",
+            "nullable": true
+          },
+          "action": {
+            "type": "string",
+            "description": "The action key of the access evaluation.",
+            "nullable": true
+          },
+          "resource": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The ID of the resource that the access evaluation is for. If the ResourceID could not be converted to a dictionary, it will return a single-value dictionary with the key \"resourceId\".",
+            "nullable": true
+          },
+          "resourceFromEffectiveDate": {
+            "type": "string",
+            "description": "The From effective date of the resource.",
+            "nullable": true
+          },
+          "resourceToEffectiveDate": {
+            "type": "string",
+            "description": "The To effective date of the resource.",
+            "nullable": true
+          },
+          "resourceFromAsAt": {
+            "type": "string",
+            "description": "The From AsAt date of the resource.",
+            "nullable": true
+          },
+          "resourceToAsAt": {
+            "type": "string",
+            "description": "The To AsAt date of the resource.",
+            "nullable": true
+          },
+          "accessExecutionTime": {
+            "type": "string",
+            "description": "The execution time of the entitlement.",
+            "nullable": true
+          },
+          "accessAsAtTime": {
+            "type": "string",
+            "description": "The AsAt time of the entitlement.",
+            "nullable": true
+          },
+          "requiredLicencePolicyId": {
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
+            "type": "string",
+            "description": "ID of the required licence policy.",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Holds logged information about an access check performed on an API."
+      },
+      "ResourceListWithHistogramOfAccessEvaluationLog": {
+        "required": [
+          "values"
+        ],
+        "type": "object",
+        "properties": {
+          "histogram": {
+            "$ref": "#/components/schemas/Histogram"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessEvaluationLog"
+            }
+          },
+          "href": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "nextPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "previousPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ResourceList with additional aggregation data about the values."
+      },
+      "LusidValidationProblemDetails": {
+        "required": [
+          "code",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "extensions": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": false
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LusidProblemDetails": {
+        "required": [
+          "code",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "extensions": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": false
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuditProcess": {
+        "required": [
+          "name",
+          "runId",
+          "startTime"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 128,
+            "minLength": 0,
+            "type": "string"
+          },
+          "runId": {
+            "type": "string"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "succeeded": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Resource": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "identifier": {
+            "maxLength": 128,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuditData": {
+        "required": [
+          "action",
+          "category"
+        ],
+        "type": "object",
+        "properties": {
+          "action": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string"
+          },
+          "category": {
+            "maxLength": 16,
+            "minLength": 0,
+            "type": "string"
+          },
+          "userId": {
+            "maxLength": 128,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "resource": {
+            "$ref": "#/components/schemas/Resource"
+          },
+          "detailsType": {
+            "maxLength": 16,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": false,
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuditEntryNote": {
+        "required": [
+          "date",
+          "text",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuditEntry": {
+        "required": [
+          "data",
+          "date",
+          "id",
+          "process"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "process": {
+            "$ref": "#/components/schemas/AuditProcess"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AuditData"
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuditEntryNote"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScrollableCollectionOfAuditEntry": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuditEntry"
+            },
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateAuditEntry": {
+        "required": [
+          "data",
+          "process"
+        ],
+        "type": "object",
+        "properties": {
+          "process": {
+            "$ref": "#/components/schemas/AuditProcess"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AuditData"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Details to create an audit entry"
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "extensions": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": false
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuditDataSummary": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "categories": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuditProcessSummary": {
+        "type": "object",
+        "properties": {
+          "process": {
+            "$ref": "#/components/schemas/AuditProcess"
+          },
+          "latestEntry": {
+            "$ref": "#/components/schemas/AuditData"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/AuditDataSummary"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResourceListOfAuditProcessSummary": {
+        "required": [
+          "values"
+        ],
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuditProcessSummary"
+            }
+          },
+          "href": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          },
+          "nextPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "previousPage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActionId": {
+        "required": [
+          "activity",
+          "entity",
+          "scope"
+        ],
+        "type": "object",
+        "properties": {
+          "scope": {
+            "maxLength": 100,
+            "minLength": 3,
+            "type": "string"
+          },
+          "activity": {
+            "maxLength": 25,
+            "minLength": 3,
+            "type": "string"
+          },
+          "entity": {
+            "maxLength": 25,
+            "minLength": 3,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "IdSelectorDefinition": {
+        "required": [
+          "actions",
+          "identifier"
+        ],
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "minLength": 1,
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "actions": {
+            "minLength": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActionId"
+            }
+          },
+          "name": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccessControlledAction": {
+        "required": [
+          "action",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "action": {
+            "$ref": "#/components/schemas/ActionId"
+          },
+          "limitedSet": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IdSelectorDefinition"
+            },
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "IdentifierPartSchema": {
+        "required": [
+          "description",
+          "displayName",
+          "index",
+          "name",
+          "required"
+        ],
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccessControlledResource": {
+        "required": [
+          "actions",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "application": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string"
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessControlledAction"
+            }
+          },
+          "identifierParts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IdentifierPartSchema"
+            },
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResourceListOfAccessControlledResource": {
+        "required": [
+          "values"
+        ],
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessControlledResource"
+            }
+          },
+          "href": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          },
+          "nextPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "previousPage": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RequestLog": {
+        "required": [
+          "application",
+          "duration",
+          "httpStatusCode",
+          "id",
+          "outcome",
+          "timestamp",
+          "url",
+          "user",
+          "verb"
+        ],
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "description": "The timestamp of the request.",
+            "format": "date-time"
+          },
+          "application": {
+            "type": "string",
+            "description": "The name of the application that the request was made to."
+          },
+          "id": {
+            "type": "string",
+            "description": "The identifier of the request."
+          },
+          "sessionId": {
+            "type": "string",
+            "description": "The identifier of the session that the request was made in.",
+            "nullable": true
+          },
+          "verb": {
+            "type": "string",
+            "description": "The HTTP verb of the request."
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL of the request."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the request.",
+            "nullable": true
+          },
+          "user": {
+            "type": "string",
+            "description": "The user who made the request."
+          },
+          "userType": {
+            "type": "string",
+            "description": "The type of the user who made the request.",
+            "nullable": true
+          },
+          "operation": {
+            "type": "string",
+            "description": "The API operation invoked by the request.",
+            "nullable": true
+          },
+          "outcome": {
+            "type": "string",
+            "description": "The outcome of the request: Success, Failure or Error."
+          },
+          "duration": {
+            "type": "number",
+            "description": "The duration of the request in milliseconds.",
+            "format": "double"
+          },
+          "httpStatusCode": {
+            "type": "integer",
+            "description": "The status code of the request.",
+            "format": "int32"
+          },
+          "errorCode": {
+            "type": "string",
+            "description": "Error code, if the request had a failure or error.",
+            "nullable": true
+          },
+          "sdkLanguage": {
+            "type": "string",
+            "description": "The language of the SDK used.",
+            "nullable": true
+          },
+          "sdkVersion": {
+            "type": "string",
+            "description": "The version of the SDK used.",
+            "nullable": true
+          },
+          "sourceApplication": {
+            "type": "string",
+            "description": "The name of the application that made the request.",
+            "nullable": true
+          },
+          "correlationId": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The chain of requestIds preceding this request",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Holds logged information about a request performed on an API."
+      },
+      "ResourceListWithHistogramOfRequestLog": {
+        "required": [
+          "values"
+        ],
+        "type": "object",
+        "properties": {
+          "histogram": {
+            "$ref": "#/components/schemas/Histogram"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RequestLog"
+            }
+          },
+          "href": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "nextPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "previousPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ResourceList with additional aggregation data about the values."
+      },
+      "Request": {
+        "type": "object",
+        "properties": {
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "The headers",
+            "nullable": true
+          },
+          "contentLength": {
+            "type": "integer",
+            "description": "The actual length of the body, which may be larger than the data recorded in Finbourne.Insights.WebApi.Dtos.Request.Body\r\n(e.g. if actual Body is large, or not convertible to a string)",
+            "format": "int64",
+            "nullable": true
+          },
+          "contentType": {
+            "type": "string",
+            "description": "The content type",
+            "nullable": true
+          },
+          "body": {
+            "type": "string",
+            "description": "The recorded content.",
+            "nullable": true
+          },
+          "bodyWasTruncated": {
+            "type": "boolean",
+            "description": "Determines if the recorded body was truncated."
+          },
+          "method": {
+            "type": "string",
+            "description": "Method called by the request",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "description": "URL of the request",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO of Finbourne.AspNetCore.Http.TrackingEntry.RequestInformation."
+      },
+      "Response": {
+        "type": "object",
+        "properties": {
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "The headers",
+            "nullable": true
+          },
+          "contentLength": {
+            "type": "integer",
+            "description": "The actual length of the body, which may be larger than the data recorded in Finbourne.Insights.WebApi.Dtos.Response.Body\r\n(e.g. if actual Body is large, or not convertible to a string)",
+            "format": "int64",
+            "nullable": true
+          },
+          "contentType": {
+            "type": "string",
+            "description": "The content type",
+            "nullable": true
+          },
+          "body": {
+            "type": "string",
+            "description": "The recorded content.",
+            "nullable": true
+          },
+          "bodyWasTruncated": {
+            "type": "boolean",
+            "description": "Determines if the recorded body was truncated."
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "Http Status Code of the request.",
+            "format": "int32"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO of Finbourne.AspNetCore.Http.TrackingEntry.ResponseInformation."
+      },
+      "VendorLog": {
+        "required": [
+          "destinationUrl",
+          "duration",
+          "httpStatusCode",
+          "id",
+          "operation",
+          "outcome",
+          "provider",
+          "requestId",
+          "timestamp",
+          "type",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The identifier of a log entry."
+          },
+          "provider": {
+            "type": "string",
+            "description": "The provider or service name."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Timestamp of when the log was generated.",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of log. Possible values: HttpResponse."
+          },
+          "destinationUrl": {
+            "type": "string",
+            "description": "The destination URL of the task."
+          },
+          "operation": {
+            "type": "string",
+            "description": "The operation performed. Possible values: Evaluate."
+          },
+          "outcome": {
+            "type": "string",
+            "description": "The outcome of the operation. Possible values: Success, Failure."
+          },
+          "duration": {
+            "type": "number",
+            "description": "The duration of the operation in ms.",
+            "format": "double"
+          },
+          "httpStatusCode": {
+            "type": "integer",
+            "description": "The status code of the operation.",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "description": "The user that made the request to LUSID."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "The ID of the request to LUSID."
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Holds logged information about a request made to an external vendor."
+      },
+      "ResourceListWithHistogramOfVendorLog": {
+        "required": [
+          "values"
+        ],
+        "type": "object",
+        "properties": {
+          "histogram": {
+            "$ref": "#/components/schemas/Histogram"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VendorLog"
+            }
+          },
+          "href": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "nextPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "previousPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ResourceList with additional aggregation data about the values."
+      },
+      "VendorRequest": {
+        "required": [
+          "id",
+          "request"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the log."
+          },
+          "request": {
+            "type": "string",
+            "description": "The body of the request."
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Details of a request made to a vendor service."
+      },
+      "VendorResponse": {
+        "required": [
+          "id",
+          "response"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the log."
+          },
+          "response": {
+            "type": "string",
+            "description": "The body of the response."
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Details of a response to a request made to a vendor service."
+      }
+    },
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "description": "OAuth2 Implicit Grant",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://lusid.okta.com/oauth2/default/v1/authorize",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {}
+  ],
+  "tags": [
+    {
+      "name": "Access Evaluations",
+      "description": "Methods to retrieve access evaluation logs."
+    },
+    {
+      "name": "Application Metadata",
+      "description": "Metadata about the test application"
+    },
+    {
+      "name": "Auditing",
+      "description": "Methods for interacting with Auditing"
+    },
+    {
+      "name": "Requests",
+      "description": "Methods to retrieve logs and content of API requests."
+    },
+    {
+      "name": "Vendor Logs",
+      "description": "Methods to retrieve logs and content of requests to vendors."
+    }
+  ],
+  "x-tagGroups": {
+    "name": "API",
+    "tags": [
+      "Access Evaluations",
+      "Application Metadata",
+      "Auditing",
+      "Requests",
+      "Vendor Logs"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+import unittest
+from finbourne_insights import api as ia
+from finbourne_insights.utilities import ApiClientFactory
+
+
+class InsightsTests(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        api_client = ApiClientFactory(api_secrets_filename="secrets.json")
+        cls.requests_api = api_client.build(ia.RequestsApi)
+
+    def test_requests(self):
+        response = self.requests_api.list_request_logs()
+        self.assertGreater(len(response.values), 0)
+
+
+if __name__ == '__main__':
+    unittest.main()
