@@ -65,3 +65,4 @@ from finbourne_insights.models.scrollable_collection_of_audit_entry import Scrol
 from finbourne_insights.models.vendor_log import VendorLog
 from finbourne_insights.models.vendor_request import VendorRequest
 from finbourne_insights.models.vendor_response import VendorResponse
+
