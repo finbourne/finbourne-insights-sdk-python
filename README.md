@@ -20,6 +20,6 @@ import finbourne_insights
 
 api_client = ApiClientFactory(finbourne_insights, api_secrets_filename="secrets.json")
 requests_api = api_client.build(ia.RequestsApi)
-response = self.requests_api.list_request_logs()
+response = requests_api.list_request_logs()
 print(response.values)
 ```
