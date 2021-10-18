@@ -1,7 +1,7 @@
 # coding: utf-8
 
 """
-    FINBOURNE Identity Service API
+    FINBOURNE Insights API
 
     FINBOURNE Technology  # noqa: E501
 
@@ -99,7 +99,7 @@ class Configuration(object):
                  ):
         """Constructor
         """
-        self._base_path = "https://fbn-ci.lusid.com/identity" if host is None else host
+        self._base_path = "https://fbn-ci.lusid.com/insights" if host is None else host
         """Default Base url
         """
         self.server_index = 0 if server_index is None and host is None else server_index
@@ -407,7 +407,7 @@ class Configuration(object):
         """
         return [
             {
-                'url': "https://fbn-ci.lusid.com/identity",
+                'url': "https://fbn-ci.lusid.com/insights",
                 'description': "No description provided",
             }
         ]

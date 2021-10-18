@@ -1,5 +1,7 @@
 # VendorLog
 
+Holds logged information about a request made to an external vendor.
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

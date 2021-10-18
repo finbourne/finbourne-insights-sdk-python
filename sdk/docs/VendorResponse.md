@@ -1,5 +1,7 @@
 # VendorResponse
 
+Details of a response to a request made to a vendor service.
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

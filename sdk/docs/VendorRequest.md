@@ -1,5 +1,7 @@
 # VendorRequest
 
+Details of a request made to a vendor service.
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

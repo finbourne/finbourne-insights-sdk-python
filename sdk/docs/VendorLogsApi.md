@@ -1,19 +1,19 @@
 # finbourne_insights.VendorLogsApi
 
-All URIs are relative to *https://www.lusid.com/insights*
+All URIs are relative to *https://fbn-ci.lusid.com/insights*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_vendor_log**](VendorLogsApi.md#get_vendor_log) | **GET** /api/vendor/{id} | [EXPERIMENTAL] Get the log for a specific vendor request.
-[**get_vendor_request**](VendorLogsApi.md#get_vendor_request) | **GET** /api/vendor/{id}/request | [EXPERIMENTAL] Get the request body for a vendor request.
-[**get_vendor_response**](VendorLogsApi.md#get_vendor_response) | **GET** /api/vendor/{id}/response | [EXPERIMENTAL] Get the response from a vendor request.
-[**list_vendor_logs**](VendorLogsApi.md#list_vendor_logs) | **GET** /api/vendor | [EXPERIMENTAL] List the logs for vendor requests.
+[**get_vendor_log**](VendorLogsApi.md#get_vendor_log) | **GET** /api/vendor/{id} | [EXPERIMENTAL] GetVendorLog: Get the log for a specific vendor request.
+[**get_vendor_request**](VendorLogsApi.md#get_vendor_request) | **GET** /api/vendor/{id}/request | [EXPERIMENTAL] GetVendorRequest: Get the request body for a vendor request.
+[**get_vendor_response**](VendorLogsApi.md#get_vendor_response) | **GET** /api/vendor/{id}/response | [EXPERIMENTAL] GetVendorResponse: Get the response from a vendor request.
+[**list_vendor_logs**](VendorLogsApi.md#list_vendor_logs) | **GET** /api/vendor | [EXPERIMENTAL] ListVendorLogs: List the logs for vendor requests.
 
 
 # **get_vendor_log**
 > VendorLog get_vendor_log(id)
 
-[EXPERIMENTAL] Get the log for a specific vendor request.
+[EXPERIMENTAL] GetVendorLog: Get the log for a specific vendor request.
 
 ### Example
 
@@ -24,22 +24,35 @@ import time
 import finbourne_insights
 from finbourne_insights.rest import ApiException
 from pprint import pprint
-configuration = finbourne_insights.Configuration()
+# Defining the host is optional and defaults to https://fbn-ci.lusid.com/insights
+# See configuration.py for a list of all supported configuration parameters.
+configuration = finbourne_insights.Configuration(
+    host = "https://fbn-ci.lusid.com/insights"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
 # Configure OAuth2 access token for authorization: oauth2
+configuration = finbourne_insights.Configuration(
+    host = "https://fbn-ci.lusid.com/insights"
+)
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# Defining host is optional and default to https://www.lusid.com/insights
-configuration.host = "https://www.lusid.com/insights"
-# Create an instance of the API class
-api_instance = finbourne_insights.VendorLogsApi(finbourne_insights.ApiClient(configuration))
-id = 'id_example' # str | The identifier of the request to obtain the log for.
+# Enter a context with an instance of the API client
+with finbourne_insights.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = finbourne_insights.VendorLogsApi(api_client)
+    id = 'id_example' # str | The identifier of the request to obtain the log for.
 
-try:
-    # [EXPERIMENTAL] Get the log for a specific vendor request.
-    api_response = api_instance.get_vendor_log(id)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling VendorLogsApi->get_vendor_log: %s\n" % e)
+    try:
+        # [EXPERIMENTAL] GetVendorLog: Get the log for a specific vendor request.
+        api_response = api_instance.get_vendor_log(id)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling VendorLogsApi->get_vendor_log: %s\n" % e)
 ```
 
 ### Parameters
@@ -73,7 +86,7 @@ Name | Type | Description  | Notes
 # **get_vendor_request**
 > VendorRequest get_vendor_request(id)
 
-[EXPERIMENTAL] Get the request body for a vendor request.
+[EXPERIMENTAL] GetVendorRequest: Get the request body for a vendor request.
 
 ### Example
 
@@ -84,22 +97,35 @@ import time
 import finbourne_insights
 from finbourne_insights.rest import ApiException
 from pprint import pprint
-configuration = finbourne_insights.Configuration()
+# Defining the host is optional and defaults to https://fbn-ci.lusid.com/insights
+# See configuration.py for a list of all supported configuration parameters.
+configuration = finbourne_insights.Configuration(
+    host = "https://fbn-ci.lusid.com/insights"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
 # Configure OAuth2 access token for authorization: oauth2
+configuration = finbourne_insights.Configuration(
+    host = "https://fbn-ci.lusid.com/insights"
+)
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# Defining host is optional and default to https://www.lusid.com/insights
-configuration.host = "https://www.lusid.com/insights"
-# Create an instance of the API class
-api_instance = finbourne_insights.VendorLogsApi(finbourne_insights.ApiClient(configuration))
-id = 'id_example' # str | The identifier of the request to obtain the content for.
+# Enter a context with an instance of the API client
+with finbourne_insights.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = finbourne_insights.VendorLogsApi(api_client)
+    id = 'id_example' # str | The identifier of the request to obtain the content for.
 
-try:
-    # [EXPERIMENTAL] Get the request body for a vendor request.
-    api_response = api_instance.get_vendor_request(id)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling VendorLogsApi->get_vendor_request: %s\n" % e)
+    try:
+        # [EXPERIMENTAL] GetVendorRequest: Get the request body for a vendor request.
+        api_response = api_instance.get_vendor_request(id)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling VendorLogsApi->get_vendor_request: %s\n" % e)
 ```
 
 ### Parameters
@@ -133,7 +159,7 @@ Name | Type | Description  | Notes
 # **get_vendor_response**
 > VendorResponse get_vendor_response(id)
 
-[EXPERIMENTAL] Get the response from a vendor request.
+[EXPERIMENTAL] GetVendorResponse: Get the response from a vendor request.
 
 ### Example
 
@@ -144,22 +170,35 @@ import time
 import finbourne_insights
 from finbourne_insights.rest import ApiException
 from pprint import pprint
-configuration = finbourne_insights.Configuration()
+# Defining the host is optional and defaults to https://fbn-ci.lusid.com/insights
+# See configuration.py for a list of all supported configuration parameters.
+configuration = finbourne_insights.Configuration(
+    host = "https://fbn-ci.lusid.com/insights"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
 # Configure OAuth2 access token for authorization: oauth2
+configuration = finbourne_insights.Configuration(
+    host = "https://fbn-ci.lusid.com/insights"
+)
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# Defining host is optional and default to https://www.lusid.com/insights
-configuration.host = "https://www.lusid.com/insights"
-# Create an instance of the API class
-api_instance = finbourne_insights.VendorLogsApi(finbourne_insights.ApiClient(configuration))
-id = 'id_example' # str | The identifier of the request to obtain the response for.
+# Enter a context with an instance of the API client
+with finbourne_insights.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = finbourne_insights.VendorLogsApi(api_client)
+    id = 'id_example' # str | The identifier of the request to obtain the response for.
 
-try:
-    # [EXPERIMENTAL] Get the response from a vendor request.
-    api_response = api_instance.get_vendor_response(id)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling VendorLogsApi->get_vendor_response: %s\n" % e)
+    try:
+        # [EXPERIMENTAL] GetVendorResponse: Get the response from a vendor request.
+        api_response = api_instance.get_vendor_response(id)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling VendorLogsApi->get_vendor_response: %s\n" % e)
 ```
 
 ### Parameters
@@ -193,7 +232,7 @@ Name | Type | Description  | Notes
 # **list_vendor_logs**
 > ResourceListWithHistogramOfVendorLog list_vendor_logs(filter=filter, sort_by=sort_by, limit=limit, page=page, histogram_interval=histogram_interval)
 
-[EXPERIMENTAL] List the logs for vendor requests.
+[EXPERIMENTAL] ListVendorLogs: List the logs for vendor requests.
 
 ### Example
 
@@ -204,26 +243,39 @@ import time
 import finbourne_insights
 from finbourne_insights.rest import ApiException
 from pprint import pprint
-configuration = finbourne_insights.Configuration()
+# Defining the host is optional and defaults to https://fbn-ci.lusid.com/insights
+# See configuration.py for a list of all supported configuration parameters.
+configuration = finbourne_insights.Configuration(
+    host = "https://fbn-ci.lusid.com/insights"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
 # Configure OAuth2 access token for authorization: oauth2
+configuration = finbourne_insights.Configuration(
+    host = "https://fbn-ci.lusid.com/insights"
+)
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
-# Defining host is optional and default to https://www.lusid.com/insights
-configuration.host = "https://www.lusid.com/insights"
-# Create an instance of the API class
-api_instance = finbourne_insights.VendorLogsApi(finbourne_insights.ApiClient(configuration))
-filter = 'filter_example' # str | Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>. (optional)
+# Enter a context with an instance of the API client
+with finbourne_insights.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = finbourne_insights.VendorLogsApi(api_client)
+    filter = 'filter_example' # str | Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>. (optional)
 sort_by = 'sort_by_example' # str | Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName (optional)
 limit = 56 # int | When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000. (optional)
 page = 'page_example' # str | Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied. (optional)
 histogram_interval = 'histogram_interval_example' # str | Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated. (optional)
 
-try:
-    # [EXPERIMENTAL] List the logs for vendor requests.
-    api_response = api_instance.list_vendor_logs(filter=filter, sort_by=sort_by, limit=limit, page=page, histogram_interval=histogram_interval)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling VendorLogsApi->list_vendor_logs: %s\n" % e)
+    try:
+        # [EXPERIMENTAL] ListVendorLogs: List the logs for vendor requests.
+        api_response = api_instance.list_vendor_logs(filter=filter, sort_by=sort_by, limit=limit, page=page, histogram_interval=histogram_interval)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling VendorLogsApi->list_vendor_logs: %s\n" % e)
 ```
 
 ### Parameters

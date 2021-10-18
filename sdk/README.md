@@ -53,10 +53,10 @@ import finbourne_insights
 from finbourne_insights.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://fbn-ci.lusid.com/identity
+# Defining the host is optional and defaults to https://fbn-ci.lusid.com/insights
 # See configuration.py for a list of all supported configuration parameters.
 configuration = finbourne_insights.Configuration(
-    host = "https://fbn-ci.lusid.com/identity"
+    host = "https://fbn-ci.lusid.com/insights"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -66,7 +66,7 @@ configuration = finbourne_insights.Configuration(
 
 # Configure OAuth2 access token for authorization: oauth2
 configuration = finbourne_insights.Configuration(
-    host = "https://fbn-ci.lusid.com/identity"
+    host = "https://fbn-ci.lusid.com/insights"
 )
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
@@ -74,102 +74,74 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # Enter a context with an instance of the API client
 with finbourne_insights.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = finbourne_insights.ApplicationMetadataApi(api_client)
-    
+    api_instance = finbourne_insights.AccessEvaluationsApi(api_client)
+    id = 'id_example' # str | The identifier of the access evaluation to obtain the log for.
+
     try:
-        # [EARLY ACCESS] GetRegistrationAvailability: Check Registration availability
-        api_response = api_instance.get_registration_availability()
+        # [EXPERIMENTAL] GetAccessEvaluationLog: Get the log for a specific access evaluation.
+        api_response = api_instance.get_access_evaluation_log(id)
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling ApplicationMetadataApi->get_registration_availability: %s\n" % e)
+        print("Exception when calling AccessEvaluationsApi->get_access_evaluation_log: %s\n" % e)
     
 ```
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://fbn-ci.lusid.com/identity*
+All URIs are relative to *https://fbn-ci.lusid.com/insights*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*ApplicationMetadataApi* | [**get_registration_availability**](docs/ApplicationMetadataApi.md#get_registration_availability) | **GET** /api/metadata/eap | [EARLY ACCESS] GetRegistrationAvailability: Check Registration availability
+*AccessEvaluationsApi* | [**get_access_evaluation_log**](docs/AccessEvaluationsApi.md#get_access_evaluation_log) | **GET** /api/access/{id} | [EXPERIMENTAL] GetAccessEvaluationLog: Get the log for a specific access evaluation.
+*AccessEvaluationsApi* | [**list_access_evaluation_logs**](docs/AccessEvaluationsApi.md#list_access_evaluation_logs) | **GET** /api/access | [EXPERIMENTAL] ListAccessEvaluationLogs: List the logs for access evaluations.
 *ApplicationMetadataApi* | [**list_access_controlled_resources**](docs/ApplicationMetadataApi.md#list_access_controlled_resources) | **GET** /api/metadata/access/resources | [EARLY ACCESS] ListAccessControlledResources: Get resources available for access control
-*ApplicationsApi* | [**create_application**](docs/ApplicationsApi.md#create_application) | **POST** /api/applications | [EARLY ACCESS] CreateApplication: Create Application
-*ApplicationsApi* | [**delete_application**](docs/ApplicationsApi.md#delete_application) | **DELETE** /api/applications/{id} | [EARLY ACCESS] DeleteApplication: Delete Application
-*ApplicationsApi* | [**get_application**](docs/ApplicationsApi.md#get_application) | **GET** /api/applications/{id} | [EARLY ACCESS] GetApplication: Get Application
-*ApplicationsApi* | [**list_applications**](docs/ApplicationsApi.md#list_applications) | **GET** /api/applications | [EARLY ACCESS] ListApplications: List Applications
-*ApplicationsApi* | [**rotate_application_secrets**](docs/ApplicationsApi.md#rotate_application_secrets) | **POST** /api/applications/{id}/lifecycle/$newsecret | [EXPERIMENTAL] RotateApplicationSecrets: Rotate Application Secrets
-*AuthenticationApi* | [**get_authentication_information**](docs/AuthenticationApi.md#get_authentication_information) | **GET** /api/authentication/information | GetAuthenticationInformation: Gets AuthenticationInformation
-*AuthenticationApi* | [**get_support_access_history**](docs/AuthenticationApi.md#get_support_access_history) | **GET** /api/authentication/support | [EXPERIMENTAL] GetSupportAccessHistory: Get the history of all support access granted and any information pertaining to their termination
-*AuthenticationApi* | [**grant_support_access**](docs/AuthenticationApi.md#grant_support_access) | **POST** /api/authentication/support | [EXPERIMENTAL] GrantSupportAccess: Grants FINBOURNE support access to your account
-*AuthenticationApi* | [**invalidate_support_access**](docs/AuthenticationApi.md#invalidate_support_access) | **DELETE** /api/authentication/support | [EXPERIMENTAL] InvalidateSupportAccess: Revoke any FINBOURNE support access to your account
-*DomainsApi* | [**create_domain**](docs/DomainsApi.md#create_domain) | **POST** /api/domains | CreateDomain: Create Domain
-*DomainsApi* | [**get_agreement**](docs/DomainsApi.md#get_agreement) | **HEAD** /api/domains/me/agreements/{agreement} | GetAgreement: Get Agreement
-*DomainsApi* | [**get_my_domain**](docs/DomainsApi.md#get_my_domain) | **GET** /api/domains/me | GetMyDomain: Get current Domain
-*DomainsApi* | [**list_agreements**](docs/DomainsApi.md#list_agreements) | **GET** /api/domains/me/agreements | ListAgreements: List Agreements
-*DomainsApi* | [**sign_agreement**](docs/DomainsApi.md#sign_agreement) | **PUT** /api/domains/me/agreements/{agreement} | SignAgreement: Sign Agreement
-*PersonalAuthenticationTokensApi* | [**create_api_key**](docs/PersonalAuthenticationTokensApi.md#create_api_key) | **POST** /api/keys | [EXPERIMENTAL] CreateApiKey: Create a Personal Access Token
-*PersonalAuthenticationTokensApi* | [**delete_api_key**](docs/PersonalAuthenticationTokensApi.md#delete_api_key) | **DELETE** /api/keys/{id} | [EXPERIMENTAL] DeleteApiKey: Invalidate a Personal Access Token
-*PersonalAuthenticationTokensApi* | [**list_own_api_keys**](docs/PersonalAuthenticationTokensApi.md#list_own_api_keys) | **GET** /api/keys | [EXPERIMENTAL] ListOwnApiKeys: Gets the meta data for all of the user&#39;s existing Personal Access Tokens.
-*RolesApi* | [**add_user_to_role**](docs/RolesApi.md#add_user_to_role) | **PUT** /api/roles/{id}/users/{userId} | [EARLY ACCESS] AddUserToRole: Add User to Role
-*RolesApi* | [**create_role**](docs/RolesApi.md#create_role) | **POST** /api/roles | [EARLY ACCESS] CreateRole: Create Role
-*RolesApi* | [**delete_role**](docs/RolesApi.md#delete_role) | **DELETE** /api/roles/{id} | [EARLY ACCESS] DeleteRole: Delete Role
-*RolesApi* | [**get_role**](docs/RolesApi.md#get_role) | **GET** /api/roles/{id} | [EARLY ACCESS] GetRole: Get Role
-*RolesApi* | [**list_roles**](docs/RolesApi.md#list_roles) | **GET** /api/roles | [EARLY ACCESS] ListRoles: List Roles
-*RolesApi* | [**list_users_in_role**](docs/RolesApi.md#list_users_in_role) | **GET** /api/roles/{id}/users | [EARLY ACCESS] ListUsersInRole: Get the users in the specified role.
-*RolesApi* | [**remove_user_from_role**](docs/RolesApi.md#remove_user_from_role) | **DELETE** /api/roles/{id}/users/{userId} | [EARLY ACCESS] RemoveUserFromRole: Remove User from Role
-*RolesApi* | [**update_role**](docs/RolesApi.md#update_role) | **PUT** /api/roles/{id} | [EARLY ACCESS] UpdateRole: Update Role
-*TokensApi* | [**invalidate_token**](docs/TokensApi.md#invalidate_token) | **DELETE** /api/tokens | [EXPERIMENTAL] InvalidateToken: Invalidate current JWT token (sign out)
-*UsersApi* | [**create_user**](docs/UsersApi.md#create_user) | **POST** /api/users | [EARLY ACCESS] CreateUser: Create User
-*UsersApi* | [**delete_user**](docs/UsersApi.md#delete_user) | **DELETE** /api/users/{id} | [EARLY ACCESS] DeleteUser: Delete User
-*UsersApi* | [**expire_password**](docs/UsersApi.md#expire_password) | **POST** /api/users/{id}/lifecycle/$expirepassword | [EXPERIMENTAL] ExpirePassword: Reset the user&#39;s password to a temporary one
-*UsersApi* | [**find_users_by_id**](docs/UsersApi.md#find_users_by_id) | **GET** /api/directory | [EARLY ACCESS] FindUsersById: Find users by id endpoint
-*UsersApi* | [**get_user**](docs/UsersApi.md#get_user) | **GET** /api/users/{id} | [EARLY ACCESS] GetUser: Get User
-*UsersApi* | [**list_users**](docs/UsersApi.md#list_users) | **GET** /api/users | [EARLY ACCESS] ListUsers: List Users
-*UsersApi* | [**reset_factors**](docs/UsersApi.md#reset_factors) | **POST** /api/users/{id}/lifecycle/$resetfactors | [EXPERIMENTAL] ResetFactors: Reset MFA factors
-*UsersApi* | [**reset_password**](docs/UsersApi.md#reset_password) | **POST** /api/users/{id}/lifecycle/$resetpassword | [EXPERIMENTAL] ResetPassword: Reset Password
-*UsersApi* | [**send_activation_email**](docs/UsersApi.md#send_activation_email) | **POST** /api/users/{id}/lifecycle/$activate | [EXPERIMENTAL] SendActivationEmail: Sends an activation email to the User
-*UsersApi* | [**unlock_user**](docs/UsersApi.md#unlock_user) | **POST** /api/users/{id}/lifecycle/$unlock | [EXPERIMENTAL] UnlockUser: Unlock User
-*UsersApi* | [**update_user**](docs/UsersApi.md#update_user) | **PUT** /api/users/{id} | [EARLY ACCESS] UpdateUser: Update User
+*AuditingApi* | [**create_entry**](docs/AuditingApi.md#create_entry) | **POST** /api/auditing/entries | [EARLY ACCESS] CreateEntry: Create (persist) and audit entry..
+*AuditingApi* | [**get_processes**](docs/AuditingApi.md#get_processes) | **GET** /api/auditing/processes | [EARLY ACCESS] GetProcesses: Get the latest audit entry for each process.
+*AuditingApi* | [**list_entries**](docs/AuditingApi.md#list_entries) | **GET** /api/auditing/entries | [EARLY ACCESS] ListEntries: Get the audit entries.
+*RequestsApi* | [**get_request**](docs/RequestsApi.md#get_request) | **GET** /api/requests/{id}/request | [EXPERIMENTAL] GetRequest: Get the request content for a specific API request.
+*RequestsApi* | [**get_request_log**](docs/RequestsApi.md#get_request_log) | **GET** /api/requests/{id} | [EXPERIMENTAL] GetRequestLog: Get the log for a specific API request.
+*RequestsApi* | [**get_response**](docs/RequestsApi.md#get_response) | **GET** /api/requests/{id}/response | [EXPERIMENTAL] GetResponse: Get the response for a specific API request.
+*RequestsApi* | [**list_request_logs**](docs/RequestsApi.md#list_request_logs) | **GET** /api/requests | [EXPERIMENTAL] ListRequestLogs: Get the logs for API requests.
+*VendorLogsApi* | [**get_vendor_log**](docs/VendorLogsApi.md#get_vendor_log) | **GET** /api/vendor/{id} | [EXPERIMENTAL] GetVendorLog: Get the log for a specific vendor request.
+*VendorLogsApi* | [**get_vendor_request**](docs/VendorLogsApi.md#get_vendor_request) | **GET** /api/vendor/{id}/request | [EXPERIMENTAL] GetVendorRequest: Get the request body for a vendor request.
+*VendorLogsApi* | [**get_vendor_response**](docs/VendorLogsApi.md#get_vendor_response) | **GET** /api/vendor/{id}/response | [EXPERIMENTAL] GetVendorResponse: Get the response from a vendor request.
+*VendorLogsApi* | [**list_vendor_logs**](docs/VendorLogsApi.md#list_vendor_logs) | **GET** /api/vendor | [EXPERIMENTAL] ListVendorLogs: List the logs for vendor requests.
 
 
 ## Documentation For Models
 
  - [AccessControlledAction](docs/AccessControlledAction.md)
  - [AccessControlledResource](docs/AccessControlledResource.md)
+ - [AccessEvaluationLog](docs/AccessEvaluationLog.md)
  - [ActionId](docs/ActionId.md)
- - [AgreementResponse](docs/AgreementResponse.md)
- - [ApiKey](docs/ApiKey.md)
- - [AuthenticationInformation](docs/AuthenticationInformation.md)
- - [CreateApiKey](docs/CreateApiKey.md)
- - [CreateApplicationRequest](docs/CreateApplicationRequest.md)
- - [CreateDomainRequest](docs/CreateDomainRequest.md)
- - [CreateRoleRequest](docs/CreateRoleRequest.md)
- - [CreateUserRequest](docs/CreateUserRequest.md)
- - [CreatedApiKey](docs/CreatedApiKey.md)
- - [DomainId](docs/DomainId.md)
- - [DomainResponse](docs/DomainResponse.md)
- - [ErrorDetail](docs/ErrorDetail.md)
+ - [AuditData](docs/AuditData.md)
+ - [AuditDataSummary](docs/AuditDataSummary.md)
+ - [AuditEntry](docs/AuditEntry.md)
+ - [AuditEntryNote](docs/AuditEntryNote.md)
+ - [AuditProcess](docs/AuditProcess.md)
+ - [AuditProcessSummary](docs/AuditProcessSummary.md)
+ - [Bucket](docs/Bucket.md)
+ - [CreateAuditEntry](docs/CreateAuditEntry.md)
+ - [Histogram](docs/Histogram.md)
  - [IdSelectorDefinition](docs/IdSelectorDefinition.md)
  - [IdentifierPartSchema](docs/IdentifierPartSchema.md)
  - [Link](docs/Link.md)
- - [ListUsersResponse](docs/ListUsersResponse.md)
  - [LusidProblemDetails](docs/LusidProblemDetails.md)
  - [LusidValidationProblemDetails](docs/LusidValidationProblemDetails.md)
- - [OAuthApplication](docs/OAuthApplication.md)
  - [ProblemDetails](docs/ProblemDetails.md)
+ - [Request](docs/Request.md)
+ - [RequestLog](docs/RequestLog.md)
+ - [Resource](docs/Resource.md)
  - [ResourceListOfAccessControlledResource](docs/ResourceListOfAccessControlledResource.md)
- - [Role](docs/Role.md)
- - [RoleId](docs/RoleId.md)
- - [RoleResponse](docs/RoleResponse.md)
- - [SupportAccessExpiry](docs/SupportAccessExpiry.md)
- - [SupportAccessRequest](docs/SupportAccessRequest.md)
- - [SupportAccessResponse](docs/SupportAccessResponse.md)
- - [TemporaryPassword](docs/TemporaryPassword.md)
- - [UpdateRoleRequest](docs/UpdateRoleRequest.md)
- - [UpdateUserRequest](docs/UpdateUserRequest.md)
- - [UserId](docs/UserId.md)
- - [UserResponse](docs/UserResponse.md)
- - [UserSummary](docs/UserSummary.md)
+ - [ResourceListOfAuditProcessSummary](docs/ResourceListOfAuditProcessSummary.md)
+ - [ResourceListWithHistogramOfAccessEvaluationLog](docs/ResourceListWithHistogramOfAccessEvaluationLog.md)
+ - [ResourceListWithHistogramOfRequestLog](docs/ResourceListWithHistogramOfRequestLog.md)
+ - [ResourceListWithHistogramOfVendorLog](docs/ResourceListWithHistogramOfVendorLog.md)
+ - [Response](docs/Response.md)
+ - [ScrollableCollectionOfAuditEntry](docs/ScrollableCollectionOfAuditEntry.md)
+ - [VendorLog](docs/VendorLog.md)
+ - [VendorRequest](docs/VendorRequest.md)
+ - [VendorResponse](docs/VendorResponse.md)
 
 
 ## Documentation For Authorization

@@ -1,5 +1,7 @@
 # Request
 
+DTO of Finbourne.AspNetCore.Http.TrackingEntry.RequestInformation.
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

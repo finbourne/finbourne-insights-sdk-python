@@ -1,7 +1,7 @@
 # coding: utf-8
 
 """
-    FINBOURNE Identity Service API
+    FINBOURNE Insights API
 
     FINBOURNE Technology  # noqa: E501
 

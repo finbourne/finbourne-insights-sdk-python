@@ -1,5 +1,6 @@
 # AuditData
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
@@ -9,7 +10,7 @@ Name | Type | Description | Notes
 **message** | **str** |  | [optional] 
 **resource** | [**Resource**](Resource.md) |  | [optional] 
 **details_type** | **str** |  | [optional] 
-**details** | [**object**](.md) |  | [optional] 
+**details** | **object** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

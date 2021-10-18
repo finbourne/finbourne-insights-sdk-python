@@ -2,7 +2,7 @@
 
 # flake8: noqa
 """
-    FINBOURNE Identity Service API
+    FINBOURNE Insights API
 
     FINBOURNE Technology  # noqa: E501
 
@@ -17,37 +17,33 @@ from __future__ import absolute_import
 # import models into model package
 from finbourne_insights.models.access_controlled_action import AccessControlledAction
 from finbourne_insights.models.access_controlled_resource import AccessControlledResource
+from finbourne_insights.models.access_evaluation_log import AccessEvaluationLog
 from finbourne_insights.models.action_id import ActionId
-from finbourne_insights.models.agreement_response import AgreementResponse
-from finbourne_insights.models.api_key import ApiKey
-from finbourne_insights.models.authentication_information import AuthenticationInformation
-from finbourne_insights.models.create_api_key import CreateApiKey
-from finbourne_insights.models.create_application_request import CreateApplicationRequest
-from finbourne_insights.models.create_domain_request import CreateDomainRequest
-from finbourne_insights.models.create_role_request import CreateRoleRequest
-from finbourne_insights.models.create_user_request import CreateUserRequest
-from finbourne_insights.models.created_api_key import CreatedApiKey
-from finbourne_insights.models.domain_id import DomainId
-from finbourne_insights.models.domain_response import DomainResponse
-from finbourne_insights.models.error_detail import ErrorDetail
+from finbourne_insights.models.audit_data import AuditData
+from finbourne_insights.models.audit_data_summary import AuditDataSummary
+from finbourne_insights.models.audit_entry import AuditEntry
+from finbourne_insights.models.audit_entry_note import AuditEntryNote
+from finbourne_insights.models.audit_process import AuditProcess
+from finbourne_insights.models.audit_process_summary import AuditProcessSummary
+from finbourne_insights.models.bucket import Bucket
+from finbourne_insights.models.create_audit_entry import CreateAuditEntry
+from finbourne_insights.models.histogram import Histogram
 from finbourne_insights.models.id_selector_definition import IdSelectorDefinition
 from finbourne_insights.models.identifier_part_schema import IdentifierPartSchema
 from finbourne_insights.models.link import Link
-from finbourne_insights.models.list_users_response import ListUsersResponse
 from finbourne_insights.models.lusid_problem_details import LusidProblemDetails
 from finbourne_insights.models.lusid_validation_problem_details import LusidValidationProblemDetails
-from finbourne_insights.models.o_auth_application import OAuthApplication
 from finbourne_insights.models.problem_details import ProblemDetails
+from finbourne_insights.models.request import Request
+from finbourne_insights.models.request_log import RequestLog
+from finbourne_insights.models.resource import Resource
 from finbourne_insights.models.resource_list_of_access_controlled_resource import ResourceListOfAccessControlledResource
-from finbourne_insights.models.role import Role
-from finbourne_insights.models.role_id import RoleId
-from finbourne_insights.models.role_response import RoleResponse
-from finbourne_insights.models.support_access_expiry import SupportAccessExpiry
-from finbourne_insights.models.support_access_request import SupportAccessRequest
-from finbourne_insights.models.support_access_response import SupportAccessResponse
-from finbourne_insights.models.temporary_password import TemporaryPassword
-from finbourne_insights.models.update_role_request import UpdateRoleRequest
-from finbourne_insights.models.update_user_request import UpdateUserRequest
-from finbourne_insights.models.user_id import UserId
-from finbourne_insights.models.user_response import UserResponse
-from finbourne_insights.models.user_summary import UserSummary
+from finbourne_insights.models.resource_list_of_audit_process_summary import ResourceListOfAuditProcessSummary
+from finbourne_insights.models.resource_list_with_histogram_of_access_evaluation_log import ResourceListWithHistogramOfAccessEvaluationLog
+from finbourne_insights.models.resource_list_with_histogram_of_request_log import ResourceListWithHistogramOfRequestLog
+from finbourne_insights.models.resource_list_with_histogram_of_vendor_log import ResourceListWithHistogramOfVendorLog
+from finbourne_insights.models.response import Response
+from finbourne_insights.models.scrollable_collection_of_audit_entry import ScrollableCollectionOfAuditEntry
+from finbourne_insights.models.vendor_log import VendorLog
+from finbourne_insights.models.vendor_request import VendorRequest
+from finbourne_insights.models.vendor_response import VendorResponse

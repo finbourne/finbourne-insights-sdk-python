@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "FINBOURNE Identity Service API",
+    "title": "FINBOURNE Insights API",
     "termsOfService": "https://www.finbourne.com/legal/terms-conditions",
     "contact": {
       "name": "FINBOURNE Technology",
@@ -17,659 +17,273 @@
   },
   "servers": [
     {
-      "url": "https://fbn-ci.lusid.com/identity"
+      "url": "https://fbn-ci.lusid.com/insights"
     }
   ],
   "paths": {
-    "/api/applications": {
+    "/api/access": {
       "get": {
         "tags": [
-          "Applications"
+          "Access Evaluations"
         ],
-        "summary": "[EARLY ACCESS] ListApplications: List Applications",
-        "description": "List the available applications",
-        "operationId": "ListApplications",
-        "responses": {
-          "200": {
-            "description": "List the available applications",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OAuthApplication"
-                  }
-                },
-                "example": [
-                  {
-                    "id": "UniqueApplicationId",
-                    "type": "Native",
-                    "displayName": "Example Native Application",
-                    "secret": "123456789",
-                    "clientId": "my-example-native-app",
-                    "issuer": "https://exampleiusser.lusid.com"
-                  }
-                ]
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      },
-      "post": {
-        "tags": [
-          "Applications"
-        ],
-        "summary": "[EARLY ACCESS] CreateApplication: Create Application",
-        "description": "Create a new Application",
-        "operationId": "CreateApplication",
-        "requestBody": {
-          "description": "Details of the application to be created",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateApplicationRequest"
-              },
-              "example": {
-                "displayName": "My First Application",
-                "clientId": "my-first-application",
-                "type": "native"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateApplicationRequest"
-              },
-              "example": {
-                "displayName": "My First Application",
-                "clientId": "my-first-application",
-                "type": "native"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateApplicationRequest"
-              },
-              "example": {
-                "displayName": "My First Application",
-                "clientId": "my-first-application",
-                "type": "native"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateApplicationRequest"
-              },
-              "example": {
-                "displayName": "My First Application",
-                "clientId": "my-first-application",
-                "type": "native"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Create Application",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuthApplication"
-                },
-                "example": {
-                  "id": "UniqueApplicationId",
-                  "type": "Native",
-                  "displayName": "Example Native Application",
-                  "secret": "123456789",
-                  "clientId": "my-example-native-app",
-                  "issuer": "https://exampleiusser.lusid.com"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      }
-    },
-    "/api/applications/{id}": {
-      "get": {
-        "tags": [
-          "Applications"
-        ],
-        "summary": "[EARLY ACCESS] GetApplication: Get Application",
-        "description": "get the specified application, and optionally the OIDC secret",
-        "operationId": "GetApplication",
+        "summary": "[EXPERIMENTAL] ListAccessEvaluationLogs: List the logs for access evaluations.",
+        "operationId": "ListAccessEvaluationLogs",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the application",
-            "required": true,
+            "name": "filter",
+            "in": "query",
+            "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
             "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
+              "maxLength": 2147483647,
+              "minLength": 0,
+              "pattern": "^[\\s\\S]*$",
               "type": "string",
-              "description": "The unique identifier for the application"
+              "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
+              "nullable": true
             }
           },
           {
-            "name": "includeSecret",
+            "name": "sortBy",
             "in": "query",
-            "description": "Optional. If set to true, the application secrets will be returned in plain text",
+            "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
             "schema": {
-              "type": "boolean",
-              "description": "Optional. If set to true, the application secrets will be returned in plain text"
+              "maxLength": 2147483647,
+              "minLength": 1,
+              "pattern": "^[\\s\\S]*$",
+              "type": "string",
+              "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
+            "schema": {
+              "maximum": 10000,
+              "minimum": 0,
+              "type": "integer",
+              "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
+              "format": "int32"
             },
             "x-nullable": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Get the specified application",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuthApplication"
-                },
-                "example": {
-                  "id": "UniqueApplicationId",
-                  "type": "Native",
-                  "displayName": "Example Native Application",
-                  "secret": "123456789",
-                  "clientId": "my-example-native-app",
-                  "issuer": "https://exampleiusser.lusid.com"
-                }
-              }
-            }
           },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
           {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      },
-      "delete": {
-        "tags": [
-          "Applications"
-        ],
-        "summary": "[EARLY ACCESS] DeleteApplication: Delete Application",
-        "description": "Delete the specified application",
-        "operationId": "DeleteApplication",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the application",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The unique identifier for the application"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      }
-    },
-    "/api/applications/{id}/lifecycle/$newsecret": {
-      "post": {
-        "tags": [
-          "Applications"
-        ],
-        "summary": "[EXPERIMENTAL] RotateApplicationSecrets: Rotate Application Secrets",
-        "description": "Rotate the secrets for the specified application",
-        "operationId": "RotateApplicationSecrets",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the application",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The unique identifier for the application"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Rotate Application Secrets",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OAuthApplication"
-                },
-                "example": {
-                  "id": "UniqueApplicationId",
-                  "type": "Native",
-                  "displayName": "Example Native Application",
-                  "secret": "123456789",
-                  "clientId": "my-example-native-app",
-                  "issuer": "https://exampleiusser.lusid.com"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Experimental"
-      }
-    },
-    "/api/authentication/information": {
-      "get": {
-        "tags": [
-          "Authentication"
-        ],
-        "summary": "GetAuthenticationInformation: Gets AuthenticationInformation",
-        "description": "Get the AuthenticationInformation associated with the current domain. This includes all the\r\nnecessary information to login to this domain.",
-        "operationId": "GetAuthenticationInformation",
-        "responses": {
-          "200": {
-            "description": "Get authentication information",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthenticationInformation"
-                },
-                "example": {
-                  "issuerUrl": "https://myco.lusid.okta.com/12346",
-                  "samlIdentityProviderId": "0oa14txx1jAiz7T302p7as"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Stable"
-      }
-    },
-    "/api/authentication/support": {
-      "post": {
-        "tags": [
-          "Authentication"
-        ],
-        "summary": "[EXPERIMENTAL] GrantSupportAccess: Grants FINBOURNE support access to your account",
-        "description": "Granting support access will allow FINBOURNE employees full access to your data with the express intent to investigate support issues\r\nYou can revoke this (and all) access at any time using the InvalidateSupportAccess endpoint.",
-        "operationId": "GrantSupportAccess",
-        "requestBody": {
-          "description": "Request detailing the duration and reasons for supplying support access",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/SupportAccessRequest"
-              },
-              "example": {
-                "duration": "PT24H",
-                "description": "Investigate issues detailed in support ticket 0604"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SupportAccessRequest"
-              },
-              "example": {
-                "duration": "PT24H",
-                "description": "Investigate issues detailed in support ticket 0604"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SupportAccessRequest"
-              },
-              "example": {
-                "duration": "PT24H",
-                "description": "Investigate issues detailed in support ticket 0604"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/SupportAccessRequest"
-              },
-              "example": {
-                "duration": "PT24H",
-                "description": "Investigate issues detailed in support ticket 0604"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Grant Support Access",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SupportAccessResponse"
-                },
-                "example": {
-                  "id": "37322a3efbf445fa861d39759ad22dcb",
-                  "duration": "PT24H",
-                  "description": "Investigate issues detailed in support ticket 0604",
-                  "createdAt": "2020-01-06T12:05:00.0000000+00:00",
-                  "expiry": "2020-01-07T12:05:00.0000000+00:00",
-                  "createdBy": "UserId-54213",
-                  "terminated": false
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Experimental"
-      },
-      "delete": {
-        "tags": [
-          "Authentication"
-        ],
-        "summary": "[EXPERIMENTAL] InvalidateSupportAccess: Revoke any FINBOURNE support access to your account",
-        "description": "This will result in a loss of access to your data for all FINBOURNE support agents",
-        "operationId": "InvalidateSupportAccess",
-        "responses": {
-          "200": {
-            "description": "Invalidate all currently active support requests",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SupportAccessResponse"
-                  }
-                },
-                "example": [
-                  {
-                    "id": "37322a3efbf445fa861d39759ad22dcb",
-                    "duration": "PT24H",
-                    "description": "Investigate issues detailed in support ticket 0604",
-                    "createdAt": "2020-01-06T12:05:00.0000000+00:00",
-                    "expiry": "2020-01-07T12:05:00.0000000+00:00",
-                    "createdBy": "UserId-54213",
-                    "terminated": false
-                  },
-                  {
-                    "id": "37322a3efbf445fa861d39759ad22dcb",
-                    "duration": "PT24H",
-                    "description": "Investigate issues detailed in support ticket 0604",
-                    "createdAt": "2020-01-06T12:05:00.0000000+00:00",
-                    "expiry": "2020-01-07T12:05:00.0000000+00:00",
-                    "createdBy": "UserId-54213",
-                    "terminated": true,
-                    "terminatedAt": "2020-01-06T16:05:00.0000000+00:00",
-                    "terminatedBy": "UserId-54213"
-                  }
-                ]
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Experimental"
-      },
-      "get": {
-        "tags": [
-          "Authentication"
-        ],
-        "summary": "[EXPERIMENTAL] GetSupportAccessHistory: Get the history of all support access granted and any information pertaining to their termination",
-        "description": "The active and inactive support requests will be returned, inactive support requests will have information pertaining to their termination\r\nincluding obfuscated userIds of those who created and terminated the request",
-        "operationId": "GetSupportAccessHistory",
-        "responses": {
-          "200": {
-            "description": "Get support access history",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SupportAccessResponse"
-                  }
-                },
-                "example": [
-                  {
-                    "id": "37322a3efbf445fa861d39759ad22dcb",
-                    "duration": "PT24H",
-                    "description": "Investigate issues detailed in support ticket 0604",
-                    "createdAt": "2020-01-06T12:05:00.0000000+00:00",
-                    "expiry": "2020-01-07T12:05:00.0000000+00:00",
-                    "createdBy": "UserId-54213",
-                    "terminated": false
-                  },
-                  {
-                    "id": "37322a3efbf445fa861d39759ad22dcb",
-                    "duration": "PT24H",
-                    "description": "Investigate issues detailed in support ticket 0604",
-                    "createdAt": "2020-01-06T12:05:00.0000000+00:00",
-                    "expiry": "2020-01-07T12:05:00.0000000+00:00",
-                    "createdBy": "UserId-54213",
-                    "terminated": true,
-                    "terminatedAt": "2020-01-06T16:05:00.0000000+00:00",
-                    "terminatedBy": "UserId-54213"
-                  }
-                ]
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Experimental"
-      }
-    },
-    "/api/directory": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "[EARLY ACCESS] FindUsersById: Find users by id endpoint",
-        "description": "Finds a maximum of 50 users by ID",
-        "operationId": "FindUsersById",
-        "parameters": [
-          {
-            "name": "id",
+            "name": "page",
             "in": "query",
-            "description": "A list of unique identifiers for the users",
+            "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
+            "schema": {
+              "maxLength": 500,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\+/]*={0,3}$",
+              "type": "string",
+              "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "histogramInterval",
+            "in": "query",
+            "description": "The interval for an included histogram of the logs",
+            "schema": {
+              "type": "string",
+              "description": "The interval for an included histogram of the logs",
+              "format": "date-span",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfAccessEvaluationLog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfAccessEvaluationLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfAccessEvaluationLog"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/access/{id}": {
+      "get": {
+        "tags": [
+          "Access Evaluations"
+        ],
+        "summary": "[EXPERIMENTAL] GetAccessEvaluationLog: Get the log for a specific access evaluation.",
+        "operationId": "GetAccessEvaluationLog",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the access evaluation to obtain the log for.",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
+              "type": "string",
+              "description": "The identifier of the access evaluation to obtain the log for."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessEvaluationLog"
+                }
               },
-              "description": "A list of unique identifiers for the users"
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessEvaluationLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessEvaluationLog"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/auditing/entries": {
+      "get": {
+        "tags": [
+          "Auditing"
+        ],
+        "summary": "[EARLY ACCESS] ListEntries: Get the audit entries.",
+        "description": "This will never be {null}, though it may be empty.",
+        "operationId": "ListEntries",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "The filter to be applied to the results.",
+            "schema": {
+              "type": "string",
+              "description": "The filter to be applied to the results.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "The order to return the entries in.",
+            "schema": {
+              "type": "string",
+              "description": "The order to return the entries in.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The maximum number of entries to return.",
+            "schema": {
+              "type": "integer",
+              "description": "The maximum number of entries to return.",
+              "format": "int32",
+              "default": 1000
+            },
+            "x-nullable": true
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "The scrolling state, used to iterate through the data set.",
+            "schema": {
+              "type": "string",
+              "description": "The scrolling state, used to iterate through the data set.",
+              "nullable": true
             }
           }
         ],
@@ -679,71 +293,113 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ListUsersResponse"
+                  "$ref": "#/components/schemas/ScrollableCollectionOfAuditEntry"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "EarlyAccess"
+      },
+      "post": {
+        "tags": [
+          "Auditing"
+        ],
+        "summary": "[EARLY ACCESS] CreateEntry: Create (persist) and audit entry..",
+        "operationId": "CreateEntry",
+        "requestBody": {
+          "description": "Information about the entry to be created.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuditEntry"
+              },
+              "example": {
+                "process": {
+                  "name": "processName",
+                  "runId": "processRunId",
+                  "startTime": "0001-01-01T00:00:00.0000000+00:00"
                 },
-                "example": {
-                  "href": "https://my-domain.lusid.com/access",
-                  "values": {
-                    "00ub0oNGTSWTBKOLGLNR": {
-                      "id": "00ub0oNGTSWTBKOLGLNR",
-                      "login": "dennis.sierra",
-                      "email": "Dennis",
-                      "firstName": "Sierra",
-                      "lastName": "dennis.sierra@my-awesome-company.com",
-                      "type": "Personal",
-                      "links": [
-                        {
-                          "relation": "User",
-                          "href": "https://my-domain.lusid.com/access/api/users/00ub0oNGTSWTBKOLGLNR?includeRoles=false",
-                          "description": "A link to access the full details of this user",
-                          "method": "GET"
-                        },
-                        {
-                          "relation": "Activity",
-                          "href": "https://my-domain.lusid.com/insights/api/requests?filter=user%20eq%20%2700ub0oNGTSWTBKOLGLNR%27",
-                          "description": "A link to the LUSID Insights API to get all logs related to this user",
-                          "method": "GET"
-                        }
-                      ]
-                    },
-                    "00uijntSwJjSHtDY70g3": {
-                      "id": "00uijntSwJjSHtDY70g3",
-                      "login": "rudi.kouma",
-                      "email": "Rudi",
-                      "firstName": "Kouma",
-                      "lastName": "rudi.kouma@my-awesome-company.com",
-                      "type": "Personal",
-                      "links": [
-                        {
-                          "relation": "User",
-                          "href": "https://my-domain.lusid.com/access/api/users/00uijntSwJjSHtDY70g3?includeRoles=false",
-                          "description": "A link to access the full details of this user",
-                          "method": "GET"
-                        },
-                        {
-                          "relation": "Activity",
-                          "href": "https://my-domain.lusid.com/insights/api/requests?filter=user%20eq%20%2700uijntSwJjSHtDY70g3%27",
-                          "description": "A link to the LUSID Insights API to get all logs related to this user",
-                          "method": "GET"
-                        }
-                      ]
-                    }
+                "data": {
+                  "action": "dataAction",
+                  "category": "dataCategory",
+                  "userId": "dataUserId",
+                  "message": "dataMessage",
+                  "resource": {
+                    "type": "resourceType",
+                    "identifier": "resourceIdentifier"
                   },
-                  "failed": {
-                    "00u19uiKQa0xXkbdGLNR": {
-                      "id": "00u19uiKQa0xXkbdGLNR",
-                      "type": "UserDoesNotExist",
-                      "detail": "The specified user cannot be found or has been deleted"
-                    }
+                  "detailsType": "dataDetailsType"
+                }
+              }
+            },
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuditEntry"
+              },
+              "example": {
+                "process": {
+                  "name": "processName",
+                  "runId": "processRunId",
+                  "startTime": "0001-01-01T00:00:00.0000000+00:00"
+                },
+                "data": {
+                  "action": "dataAction",
+                  "category": "dataCategory",
+                  "userId": "dataUserId",
+                  "message": "dataMessage",
+                  "resource": {
+                    "type": "resourceType",
+                    "identifier": "resourceIdentifier"
                   },
-                  "links": [
-                    {
-                      "relation": "RequestLogs",
-                      "href": "https://mydomain.lusid.com/app/insights/logs/0ABCDEFGHIJKL:00000001",
-                      "description": "A link to the LUSID Insights website showing all logs related to this request",
-                      "method": "GET"
-                    }
-                  ]
+                  "detailsType": "dataDetailsType"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditEntry"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "There have been too many recent requests, retry later (using the RETRY-AFTER header value as the delay).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -777,298 +433,21 @@
         "x-fbn-apistatus": "EarlyAccess"
       }
     },
-    "/api/domains": {
-      "post": {
-        "tags": [
-          "Domains"
-        ],
-        "summary": "CreateDomain: Create Domain",
-        "description": "Creates a Domain",
-        "operationId": "CreateDomain",
-        "parameters": [
-          {
-            "name": "code",
-            "in": "query",
-            "description": "The verification code necessary to create domains",
-            "required": true,
-            "schema": {
-              "maxLength": 2147483647,
-              "minLength": 1,
-              "pattern": "^[\\s\\S]*$",
-              "type": "string",
-              "description": "The verification code necessary to create domains"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The definition of the domain",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateDomainRequest"
-              },
-              "example": {
-                "domain": "MyCo",
-                "companyName": "MyCo USA",
-                "owner": {
-                  "firstName": "Owner",
-                  "lastName": "OfAccount",
-                  "emailAddress": "owner.ofaccount@myco.com",
-                  "login": "owner.ofaccount@myco.com",
-                  "type": "Personal"
-                },
-                "signedAgreements": [
-                  "TermsAndConditions_01012019_Gb"
-                ]
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateDomainRequest"
-              },
-              "example": {
-                "domain": "MyCo",
-                "companyName": "MyCo USA",
-                "owner": {
-                  "firstName": "Owner",
-                  "lastName": "OfAccount",
-                  "emailAddress": "owner.ofaccount@myco.com",
-                  "login": "owner.ofaccount@myco.com",
-                  "type": "Personal"
-                },
-                "signedAgreements": [
-                  "TermsAndConditions_01012019_Gb"
-                ]
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateDomainRequest"
-              },
-              "example": {
-                "domain": "MyCo",
-                "companyName": "MyCo USA",
-                "owner": {
-                  "firstName": "Owner",
-                  "lastName": "OfAccount",
-                  "emailAddress": "owner.ofaccount@myco.com",
-                  "login": "owner.ofaccount@myco.com",
-                  "type": "Personal"
-                },
-                "signedAgreements": [
-                  "TermsAndConditions_01012019_Gb"
-                ]
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateDomainRequest"
-              },
-              "example": {
-                "domain": "MyCo",
-                "companyName": "MyCo USA",
-                "owner": {
-                  "firstName": "Owner",
-                  "lastName": "OfAccount",
-                  "emailAddress": "owner.ofaccount@myco.com",
-                  "login": "owner.ofaccount@myco.com",
-                  "type": "Personal"
-                },
-                "signedAgreements": [
-                  "TermsAndConditions_01012019_Gb"
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "The created domain",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/DomainResponse"
-                },
-                "example": {
-                  "id": {
-                    "name": "MyCo"
-                  },
-                  "description": "US subsidiary of MyCo",
-                  "companyName": "MyCo USA",
-                  "owner": {
-                    "value": "DomainOwnerUserId"
-                  },
-                  "billingContact": {
-                    "value": "BillingContactUserId"
-                  },
-                  "technicalContact": {
-                    "value": "TechnicalContactUserId"
-                  },
-                  "created": "2018-12-08T13:30:00.0000000+00:00"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DomainResponse"
-                },
-                "example": {
-                  "id": {
-                    "name": "MyCo"
-                  },
-                  "description": "US subsidiary of MyCo",
-                  "companyName": "MyCo USA",
-                  "owner": {
-                    "value": "DomainOwnerUserId"
-                  },
-                  "billingContact": {
-                    "value": "BillingContactUserId"
-                  },
-                  "technicalContact": {
-                    "value": "TechnicalContactUserId"
-                  },
-                  "created": "2018-12-08T13:30:00.0000000+00:00"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DomainResponse"
-                },
-                "example": {
-                  "id": {
-                    "name": "MyCo"
-                  },
-                  "description": "US subsidiary of MyCo",
-                  "companyName": "MyCo USA",
-                  "owner": {
-                    "value": "DomainOwnerUserId"
-                  },
-                  "billingContact": {
-                    "value": "BillingContactUserId"
-                  },
-                  "technicalContact": {
-                    "value": "TechnicalContactUserId"
-                  },
-                  "created": "2018-12-08T13:30:00.0000000+00:00"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Stable"
-      }
-    },
-    "/api/domains/me": {
+    "/api/auditing/processes": {
       "get": {
         "tags": [
-          "Domains"
+          "Auditing"
         ],
-        "summary": "GetMyDomain: Get current Domain",
-        "description": "Gets the Domain of the requesting User",
-        "operationId": "GetMyDomain",
+        "summary": "[EARLY ACCESS] GetProcesses: Get the latest audit entry for each process.",
+        "description": "This will never be {null}, though it may be empty.",
+        "operationId": "GetProcesses",
         "responses": {
           "200": {
-            "description": "The current domain",
+            "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/DomainResponse"
-                },
-                "example": {
-                  "id": {
-                    "name": "MyCo"
-                  },
-                  "description": "US subsidiary of MyCo",
-                  "companyName": "MyCo USA",
-                  "owner": {
-                    "value": "DomainOwnerUserId"
-                  },
-                  "billingContact": {
-                    "value": "BillingContactUserId"
-                  },
-                  "technicalContact": {
-                    "value": "TechnicalContactUserId"
-                  },
-                  "created": "2018-12-08T13:30:00.0000000+00:00"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DomainResponse"
-                },
-                "example": {
-                  "id": {
-                    "name": "MyCo"
-                  },
-                  "description": "US subsidiary of MyCo",
-                  "companyName": "MyCo USA",
-                  "owner": {
-                    "value": "DomainOwnerUserId"
-                  },
-                  "billingContact": {
-                    "value": "BillingContactUserId"
-                  },
-                  "technicalContact": {
-                    "value": "TechnicalContactUserId"
-                  },
-                  "created": "2018-12-08T13:30:00.0000000+00:00"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DomainResponse"
-                },
-                "example": {
-                  "id": {
-                    "name": "MyCo"
-                  },
-                  "description": "US subsidiary of MyCo",
-                  "companyName": "MyCo USA",
-                  "owner": {
-                    "value": "DomainOwnerUserId"
-                  },
-                  "billingContact": {
-                    "value": "BillingContactUserId"
-                  },
-                  "technicalContact": {
-                    "value": "TechnicalContactUserId"
-                  },
-                  "created": "2018-12-08T13:30:00.0000000+00:00"
+                  "$ref": "#/components/schemas/ResourceListOfAuditProcessSummary"
                 }
               }
             }
@@ -1089,522 +468,7 @@
             "oauth2": []
           }
         ],
-        "x-fbn-apistatus": "Stable"
-      }
-    },
-    "/api/domains/me/agreements": {
-      "get": {
-        "tags": [
-          "Domains"
-        ],
-        "summary": "ListAgreements: List Agreements",
-        "description": "Lists the signed agreements for the current domain",
-        "operationId": "ListAgreements",
-        "responses": {
-          "200": {
-            "description": "List the signed agreements for the current domain",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "$ref": "#/components/schemas/AgreementResponse"
-                  }
-                },
-                "example": {
-                  "termsAndConditions-20190301-GBP": {
-                    "name": "TermsAndConditions-20190301-GB",
-                    "signedBy": "DomainOwnerUserId",
-                    "signedAt": "2019-03-07T13:23:07.0000000+00:00"
-                  },
-                  "termsAndConditions-20190101-GBP": {
-                    "name": "TermsAndConditions-20190101-GB",
-                    "signedBy": "DomainOwnerUserId",
-                    "signedAt": "2019-01-05T10:15:00.0000000+00:00"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "$ref": "#/components/schemas/AgreementResponse"
-                  }
-                },
-                "example": {
-                  "termsAndConditions-20190301-GBP": {
-                    "name": "TermsAndConditions-20190301-GB",
-                    "signedBy": "DomainOwnerUserId",
-                    "signedAt": "2019-03-07T13:23:07.0000000+00:00"
-                  },
-                  "termsAndConditions-20190101-GBP": {
-                    "name": "TermsAndConditions-20190101-GB",
-                    "signedBy": "DomainOwnerUserId",
-                    "signedAt": "2019-01-05T10:15:00.0000000+00:00"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "$ref": "#/components/schemas/AgreementResponse"
-                  }
-                },
-                "example": {
-                  "termsAndConditions-20190301-GBP": {
-                    "name": "TermsAndConditions-20190301-GB",
-                    "signedBy": "DomainOwnerUserId",
-                    "signedAt": "2019-03-07T13:23:07.0000000+00:00"
-                  },
-                  "termsAndConditions-20190101-GBP": {
-                    "name": "TermsAndConditions-20190101-GB",
-                    "signedBy": "DomainOwnerUserId",
-                    "signedAt": "2019-01-05T10:15:00.0000000+00:00"
-                  }
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Stable"
-      }
-    },
-    "/api/domains/me/agreements/{agreement}": {
-      "put": {
-        "tags": [
-          "Domains"
-        ],
-        "summary": "SignAgreement: Sign Agreement",
-        "description": "Signs a specified agreement. Only the owner of a domain can sign an agreement",
-        "operationId": "SignAgreement",
-        "parameters": [
-          {
-            "name": "agreement",
-            "in": "path",
-            "description": "Name of the agreement being signed",
-            "required": true,
-            "schema": {
-              "maxLength": 100,
-              "minLength": 0,
-              "type": "string",
-              "description": "Name of the agreement being signed"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Signs a specified agreement",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AgreementResponse"
-                },
-                "example": {
-                  "name": "TermsAndConditions-20190101-GB",
-                  "signedBy": "DomainOwnerUserId",
-                  "signedAt": "2019-01-05T10:15:00.0000000+00:00"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AgreementResponse"
-                },
-                "example": {
-                  "name": "TermsAndConditions-20190101-GB",
-                  "signedBy": "DomainOwnerUserId",
-                  "signedAt": "2019-01-05T10:15:00.0000000+00:00"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AgreementResponse"
-                },
-                "example": {
-                  "name": "TermsAndConditions-20190101-GB",
-                  "signedBy": "DomainOwnerUserId",
-                  "signedAt": "2019-01-05T10:15:00.0000000+00:00"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Stable"
-      },
-      "head": {
-        "tags": [
-          "Domains"
-        ],
-        "summary": "GetAgreement: Get Agreement",
-        "description": "Check whether the domain has signed a specific agreement",
-        "operationId": "GetAgreement",
-        "parameters": [
-          {
-            "name": "agreement",
-            "in": "path",
-            "description": "Name of the agreement",
-            "required": true,
-            "schema": {
-              "maxLength": 100,
-              "minLength": 0,
-              "type": "string",
-              "description": "Name of the agreement"
-            }
-          }
-        ],
-        "responses": {
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Whether agreement is signed",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "boolean"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Stable"
-      }
-    },
-    "/api/keys": {
-      "post": {
-        "tags": [
-          "Personal Authentication Tokens"
-        ],
-        "summary": "[EXPERIMENTAL] CreateApiKey: Create a Personal Access Token",
-        "description": "Generates a Personal Access Token and returns the new key and its associated metadata.",
-        "operationId": "CreateApiKey",
-        "requestBody": {
-          "description": "The request to create a new Personal Access Token",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateApiKey"
-              },
-              "example": {
-                "displayName": "My API Key",
-                "deactivationDate": "2022-12-08T13:30:12.0000000+00:00"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateApiKey"
-              },
-              "example": {
-                "displayName": "My API Key",
-                "deactivationDate": "2022-12-08T13:30:12.0000000+00:00"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateApiKey"
-              },
-              "example": {
-                "displayName": "My API Key",
-                "deactivationDate": "2022-12-08T13:30:12.0000000+00:00"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateApiKey"
-              },
-              "example": {
-                "displayName": "My API Key",
-                "deactivationDate": "2022-12-08T13:30:12.0000000+00:00"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "The Personal Access Token and associated meta data.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreatedApiKey"
-                },
-                "example": {
-                  "key": "ba5e8bed1cbd92f3cc4a893a48141ff23617b258cb7f1407f3567d1f35d0f0e0",
-                  "id": "f45fcf4e7942422bb6c99ff74de30f40",
-                  "displayName": "Automated system A's key",
-                  "createdDate": "2020-01-01T00:00:00.0000000+00:00",
-                  "deactivationDate": "2020-06-01T00:00:00.0000000+00:00"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Experimental"
-      },
-      "get": {
-        "tags": [
-          "Personal Authentication Tokens"
-        ],
-        "summary": "[EXPERIMENTAL] ListOwnApiKeys: Gets the meta data for all of the user's existing Personal Access Tokens.",
-        "description": "Gets the meta data for all of the user's Personal Access Tokens that have not been deleted. They may be\r\ninvalid due to the deactivation date having passed.",
-        "operationId": "ListOwnApiKeys",
-        "responses": {
-          "200": {
-            "description": "List of user's existing Personal Access Tokens",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ApiKey"
-                  }
-                },
-                "example": [
-                  {
-                    "id": "f45fcf4e7942422bb6c99ff74de30f40",
-                    "displayName": "Automated system A's key",
-                    "createdDate": "2020-01-01T00:00:00.0000000+00:00",
-                    "deactivationDate": "2020-06-01T00:00:00.0000000+00:00"
-                  },
-                  {
-                    "id": "89762a35ce3649b5b92f47168611a534",
-                    "displayName": "Automated system B's key",
-                    "createdDate": "2020-01-02T00:00:00.0000000+00:00",
-                    "deactivationDate": "2020-06-02T00:00:00.0000000+00:00"
-                  },
-                  {
-                    "id": "bd772a807cab49c0bcac565c8dbd7a20",
-                    "displayName": "Automated system C's key",
-                    "createdDate": "2020-01-03T00:00:00.0000000+00:00",
-                    "deactivationDate": "2020-06-03T00:00:00.0000000+00:00"
-                  }
-                ]
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Experimental"
-      }
-    },
-    "/api/keys/{id}": {
-      "delete": {
-        "tags": [
-          "Personal Authentication Tokens"
-        ],
-        "summary": "[EXPERIMENTAL] DeleteApiKey: Invalidate a Personal Access Token",
-        "description": "Immediately invalidates the specified Personal Access Token",
-        "operationId": "DeleteApiKey",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The id of the Personal Access Token to delete",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The id of the Personal Access Token to delete"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Invalidates a Personal Access Token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiKey"
-                },
-                "example": {
-                  "id": "f45fcf4e7942422bb6c99ff74de30f40",
-                  "displayName": "Automated system A's key",
-                  "createdDate": "2020-01-01T00:00:00.0000000+00:00",
-                  "deactivationDate": "2020-08-01T00:00:00.0000000+00:00"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Experimental"
+        "x-fbn-apistatus": "EarlyAccess"
       }
     },
     "/api/metadata/access/resources": {
@@ -1655,180 +519,95 @@
         "x-fbn-apistatus": "EarlyAccess"
       }
     },
-    "/api/metadata/eap": {
+    "/api/requests": {
       "get": {
         "tags": [
-          "Application Metadata"
+          "Requests"
         ],
-        "summary": "[EARLY ACCESS] GetRegistrationAvailability: Check Registration availability",
-        "description": "Identify whether there registrations service is available",
-        "operationId": "GetRegistrationAvailability",
+        "summary": "[EXPERIMENTAL] ListRequestLogs: Get the logs for API requests.",
+        "operationId": "ListRequestLogs",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
+            "schema": {
+              "maxLength": 2147483647,
+              "minLength": 0,
+              "pattern": "^[\\s\\S]*$",
+              "type": "string",
+              "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
+            "schema": {
+              "maxLength": 2147483647,
+              "minLength": 1,
+              "pattern": "^[\\s\\S]*$",
+              "type": "string",
+              "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
+            "schema": {
+              "maximum": 10000,
+              "minimum": 0,
+              "type": "integer",
+              "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
+              "format": "int32"
+            },
+            "x-nullable": true
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
+            "schema": {
+              "maxLength": 500,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\+/]*={0,3}$",
+              "type": "string",
+              "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
+              "nullable": true
+            }
+          },
+          {
+            "name": "histogramInterval",
+            "in": "query",
+            "description": "Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated.",
+            "schema": {
+              "type": "string",
+              "description": "Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated.",
+              "format": "date-span",
+              "nullable": true
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Registration availability state",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfRequestLog"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfRequestLog"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      }
-    },
-    "/api/roles": {
-      "get": {
-        "tags": [
-          "Roles"
-        ],
-        "summary": "[EARLY ACCESS] ListRoles: List Roles",
-        "description": "List the available Roles",
-        "operationId": "ListRoles",
-        "responses": {
-          "200": {
-            "description": "List the available roles",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/RoleResponse"
-                  }
-                },
-                "example": [
-                  {
-                    "id": "asnvr5ne35",
-                    "roleId": {
-                      "scope": "LUSID",
-                      "code": "FrontOfficeAdministrator"
-                    },
-                    "name": "LUSID:FrontOfficeAdministrator",
-                    "description": "Front office administration role"
-                  }
-                ]
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      },
-      "post": {
-        "tags": [
-          "Roles"
-        ],
-        "summary": "[EARLY ACCESS] CreateRole: Create Role",
-        "description": "Creates a new Role",
-        "operationId": "CreateRole",
-        "requestBody": {
-          "description": "Details of the role to be created",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateRoleRequest"
-              },
-              "example": {
-                "name": "LUSID:FrontOfficeAdministrator",
-                "description": "Front office administration role"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateRoleRequest"
-              },
-              "example": {
-                "name": "LUSID:FrontOfficeAdministrator",
-                "description": "Front office administration role"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateRoleRequest"
-              },
-              "example": {
-                "name": "LUSID:FrontOfficeAdministrator",
-                "description": "Front office administration role"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateRoleRequest"
-              },
-              "example": {
-                "name": "LUSID:FrontOfficeAdministrator",
-                "description": "Front office administration role"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Create a new role",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RoleResponse"
-                },
-                "example": {
-                  "id": "asnvr5ne35",
-                  "roleId": {
-                    "scope": "LUSID",
-                    "code": "FrontOfficeAdministrator"
-                  },
-                  "name": "LUSID:FrontOfficeAdministrator",
-                  "description": "Front office administration role"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "A role with the same Name already exists.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfRequestLog"
                 }
               }
             }
@@ -1836,541 +615,22 @@
           "400": {
             "description": "The details of the input related failure",
             "content": {
-              "application/json": {
+              "text/plain": {
                 "schema": {
                   "$ref": "#/components/schemas/LusidValidationProblemDetails"
                 }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      }
-    },
-    "/api/roles/{id}": {
-      "get": {
-        "tags": [
-          "Roles"
-        ],
-        "summary": "[EARLY ACCESS] GetRole: Get Role",
-        "description": "Get the specified role",
-        "operationId": "GetRole",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the role",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The unique identifier for the role"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Get the specified role",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RoleResponse"
-                },
-                "example": {
-                  "id": "asnvr5ne35",
-                  "roleId": {
-                    "scope": "LUSID",
-                    "code": "FrontOfficeAdministrator"
-                  },
-                  "name": "LUSID:FrontOfficeAdministrator",
-                  "description": "Front office administration role"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      },
-      "delete": {
-        "tags": [
-          "Roles"
-        ],
-        "summary": "[EARLY ACCESS] DeleteRole: Delete Role",
-        "description": "Delete the specified role",
-        "operationId": "DeleteRole",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the role",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The unique identifier for the role"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      },
-      "put": {
-        "tags": [
-          "Roles"
-        ],
-        "summary": "[EARLY ACCESS] UpdateRole: Update Role",
-        "description": "Update the specified Role",
-        "operationId": "UpdateRole",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the role to be updated",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The unique identifier for the role to be updated"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The new definition of the role",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateRoleRequest"
               },
-              "example": {
-                "description": "Front office administration role"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateRoleRequest"
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
               },
-              "example": {
-                "description": "Front office administration role"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateRoleRequest"
-              },
-              "example": {
-                "description": "Front office administration role"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateRoleRequest"
-              },
-              "example": {
-                "description": "Front office administration role"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Update a role",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RoleResponse"
-                },
-                "example": {
-                  "id": "asnvr5ne35",
-                  "roleId": {
-                    "scope": "LUSID",
-                    "code": "FrontOfficeAdministrator"
-                  },
-                  "name": "LUSID:FrontOfficeAdministrator",
-                  "description": "Front office administration role"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/LusidValidationProblemDetails"
                 }
               }
             }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      }
-    },
-    "/api/roles/{id}/users": {
-      "get": {
-        "tags": [
-          "Roles"
-        ],
-        "summary": "[EARLY ACCESS] ListUsersInRole: Get the users in the specified role.",
-        "description": "List all Users in the specified Role",
-        "operationId": "ListUsersInRole",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the Role",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The unique identifier for the Role"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The users in the role",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserResponse"
-                  }
-                },
-                "example": [
-                  {
-                    "id": "asybvrs5",
-                    "emailAddress": "joe.bloggs@myco.com",
-                    "login": "joe.bloggs@myco.com",
-                    "firstName": "Joe",
-                    "lastName": "Bloggs",
-                    "roles": [
-                      {
-                        "id": "customrole1",
-                        "roleId": {
-                          "scope": "default",
-                          "code": "customrole2"
-                        },
-                        "name": "Front Office Administrator",
-                        "description": "Administration role for Front Office staff"
-                      }
-                    ],
-                    "type": "Personal",
-                    "status": "ACTIVE",
-                    "external": false
-                  }
-                ]
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      }
-    },
-    "/api/roles/{id}/users/{userId}": {
-      "put": {
-        "tags": [
-          "Roles"
-        ],
-        "summary": "[EARLY ACCESS] AddUserToRole: Add User to Role",
-        "description": "Adds the User to the specified Role",
-        "operationId": "AddUserToRole",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the Role",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The unique identifier for the Role"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "The unique identifier for the User",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The unique identifier for the User"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      },
-      "delete": {
-        "tags": [
-          "Roles"
-        ],
-        "summary": "[EARLY ACCESS] RemoveUserFromRole: Remove User from Role",
-        "description": "Removes the User from the specified Role",
-        "operationId": "RemoveUserFromRole",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the Role",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The unique identifier for the Role"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "The unique identifier for the User",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The unique identifier for the User"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      }
-    },
-    "/api/tokens": {
-      "delete": {
-        "tags": [
-          "Tokens"
-        ],
-        "summary": "[EXPERIMENTAL] InvalidateToken: Invalidate current JWT token (sign out)",
-        "description": "Log the current user out of all Finbourne platforms by invalidating the current token",
-        "operationId": "InvalidateToken",
-        "responses": {
-          "204": {
-            "description": "Success"
           },
           "default": {
             "description": "Error response",
@@ -2391,615 +651,341 @@
         "x-fbn-apistatus": "Experimental"
       }
     },
-    "/api/users": {
+    "/api/requests/{id}": {
       "get": {
         "tags": [
-          "Users"
+          "Requests"
         ],
-        "summary": "[EARLY ACCESS] ListUsers: List Users",
-        "description": "List the available Users",
-        "operationId": "ListUsers",
-        "parameters": [
-          {
-            "name": "includeRoles",
-            "in": "query",
-            "description": "Flag indicating that the users roles should be included in the response",
-            "schema": {
-              "type": "boolean",
-              "description": "Flag indicating that the users roles should be included in the response",
-              "default": false
-            },
-            "x-nullable": true
-          },
-          {
-            "name": "includeDeactivated",
-            "in": "query",
-            "description": "Include previously deleted (not purged) users",
-            "schema": {
-              "type": "boolean",
-              "description": "Include previously deleted (not purged) users",
-              "default": false
-            },
-            "x-nullable": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List the available users",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserResponse"
-                  }
-                },
-                "example": [
-                  {
-                    "id": "asybvrs5",
-                    "emailAddress": "joe.bloggs@myco.com",
-                    "login": "joe.bloggs@myco.com",
-                    "firstName": "Joe",
-                    "lastName": "Bloggs",
-                    "roles": [
-                      {
-                        "id": "customrole1",
-                        "roleId": {
-                          "scope": "default",
-                          "code": "customrole2"
-                        },
-                        "name": "Front Office Administrator",
-                        "description": "Administration role for Front Office staff"
-                      }
-                    ],
-                    "type": "Personal",
-                    "status": "ACTIVE",
-                    "external": false
-                  }
-                ]
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      },
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "[EARLY ACCESS] CreateUser: Create User",
-        "description": "Create a new User",
-        "operationId": "CreateUser",
-        "parameters": [
-          {
-            "name": "waitForReindex",
-            "in": "query",
-            "description": "Should the request wait until the newly created User is indexed (available in List) before returning",
-            "schema": {
-              "type": "boolean",
-              "description": "Should the request wait until the newly created User is indexed (available in List) before returning",
-              "default": false
-            },
-            "x-nullable": true
-          }
-        ],
-        "requestBody": {
-          "description": "Details of the User to be created",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateUserRequest"
-              },
-              "example": {
-                "firstName": "Joe",
-                "lastName": "Bloggs",
-                "emailAddress": "joe.bloggs@myco.com",
-                "login": "joe.bloggs@myco.com",
-                "type": "Personal"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateUserRequest"
-              },
-              "example": {
-                "firstName": "Joe",
-                "lastName": "Bloggs",
-                "emailAddress": "joe.bloggs@myco.com",
-                "login": "joe.bloggs@myco.com",
-                "type": "Personal"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateUserRequest"
-              },
-              "example": {
-                "firstName": "Joe",
-                "lastName": "Bloggs",
-                "emailAddress": "joe.bloggs@myco.com",
-                "login": "joe.bloggs@myco.com",
-                "type": "Personal"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateUserRequest"
-              },
-              "example": {
-                "firstName": "Joe",
-                "lastName": "Bloggs",
-                "emailAddress": "joe.bloggs@myco.com",
-                "login": "joe.bloggs@myco.com",
-                "type": "Personal"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Create a new user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
-                },
-                "example": {
-                  "id": "asybvrs5",
-                  "emailAddress": "joe.bloggs@myco.com",
-                  "login": "joe.bloggs@myco.com",
-                  "firstName": "Joe",
-                  "lastName": "Bloggs",
-                  "roles": [
-                    {
-                      "id": "customrole1",
-                      "roleId": {
-                        "scope": "default",
-                        "code": "customrole2"
-                      },
-                      "name": "Front Office Administrator",
-                      "description": "Administration role for Front Office staff"
-                    }
-                  ],
-                  "type": "Personal",
-                  "status": "ACTIVE",
-                  "external": false
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      }
-    },
-    "/api/users/{id}": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "[EARLY ACCESS] GetUser: Get User",
-        "description": "Get the specified User",
-        "operationId": "GetUser",
+        "summary": "[EXPERIMENTAL] GetRequestLog: Get the log for a specific API request.",
+        "operationId": "GetRequestLog",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique identifier for the User",
+            "description": "The identifier of the request to obtain the log for.",
             "required": true,
             "schema": {
               "maxLength": 64,
               "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
               "type": "string",
-              "description": "The unique identifier for the User"
+              "description": "The identifier of the request to obtain the log for."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestLog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestLog"
+                }
+              }
             }
           },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
           {
-            "name": "includeRoles",
-            "in": "query",
-            "description": "Flag indicating that the users roles should be included in the response",
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/requests/{id}/request": {
+      "get": {
+        "tags": [
+          "Requests"
+        ],
+        "summary": "[EXPERIMENTAL] GetRequest: Get the request content for a specific API request.",
+        "operationId": "GetRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the request to obtain the content for.",
+            "required": true,
             "schema": {
-              "type": "boolean",
-              "description": "Flag indicating that the users roles should be included in the response",
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
+              "type": "string",
+              "description": "The identifier of the request to obtain the content for."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Request"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Request"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Request"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/requests/{id}/response": {
+      "get": {
+        "tags": [
+          "Requests"
+        ],
+        "summary": "[EXPERIMENTAL] GetResponse: Get the response for a specific API request.",
+        "operationId": "GetResponse",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The identifier of the request to obtain the response for.",
+            "required": true,
+            "schema": {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
+              "type": "string",
+              "description": "The identifier of the request to obtain the response for."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The details of the input related failure",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2": []
+          }
+        ],
+        "x-fbn-apistatus": "Experimental"
+      }
+    },
+    "/api/vendor": {
+      "get": {
+        "tags": [
+          "Vendor Logs"
+        ],
+        "summary": "[EXPERIMENTAL] ListVendorLogs: List the logs for vendor requests.",
+        "operationId": "ListVendorLogs",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
+            "schema": {
+              "maxLength": 2147483647,
+              "minLength": 0,
+              "pattern": "^[\\s\\S]*$",
+              "type": "string",
+              "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
               "nullable": true
-            },
-            "x-nullable": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Get the specified user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
-                },
-                "example": {
-                  "id": "asybvrs5",
-                  "emailAddress": "joe.bloggs@myco.com",
-                  "login": "joe.bloggs@myco.com",
-                  "firstName": "Joe",
-                  "lastName": "Bloggs",
-                  "roles": [
-                    {
-                      "id": "customrole1",
-                      "roleId": {
-                        "scope": "default",
-                        "code": "customrole2"
-                      },
-                      "name": "Front Office Administrator",
-                      "description": "Administration role for Front Office staff"
-                    }
-                  ],
-                  "type": "Personal",
-                  "status": "ACTIVE",
-                  "external": false
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      },
-      "delete": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "[EARLY ACCESS] DeleteUser: Delete User",
-        "description": "By default the user will be de-provisioned and inactive, however their record will remain in the identity\r\nprovider for audit purposes. If this is not desirable and removal of all trace of the user is required,\r\nthe purge parameter can be specified to indicate the details should be purged completely.",
-        "operationId": "DeleteUser",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the user",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The unique identifier for the user"
             }
           },
           {
-            "name": "purge",
+            "name": "sortBy",
             "in": "query",
-            "description": "Whether to purge any trace of the user from the identity provider (will affect audit)",
+            "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
             "schema": {
-              "type": "boolean",
-              "description": "Whether to purge any trace of the user from the identity provider (will affect audit)"
+              "maxLength": 2147483647,
+              "minLength": 1,
+              "pattern": "^[\\s\\S]*$",
+              "type": "string",
+              "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
+              "nullable": true
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
+            "schema": {
+              "maximum": 10000,
+              "minimum": 0,
+              "type": "integer",
+              "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
+              "format": "int32"
             },
             "x-nullable": true
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success"
           },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
           {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      },
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "[EARLY ACCESS] UpdateUser: Update User",
-        "description": "Updates the specified User",
-        "operationId": "UpdateUser",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the User to be updated",
-            "required": true,
+            "name": "page",
+            "in": "query",
+            "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
             "schema": {
-              "maxLength": 64,
+              "maxLength": 500,
               "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
+              "pattern": "^[a-zA-Z0-9\\+/]*={0,3}$",
               "type": "string",
-              "description": "The unique identifier for the User to be updated"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The new definition of the User",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserRequest"
-              },
-              "example": {
-                "firstName": "Joe",
-                "lastName": "Bloggs",
-                "emailAddress": "joe.bloggs@myco.com",
-                "login": "joe.bloggs@myco.com"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserRequest"
-              },
-              "example": {
-                "firstName": "Joe",
-                "lastName": "Bloggs",
-                "emailAddress": "joe.bloggs@myco.com",
-                "login": "joe.bloggs@myco.com"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserRequest"
-              },
-              "example": {
-                "firstName": "Joe",
-                "lastName": "Bloggs",
-                "emailAddress": "joe.bloggs@myco.com",
-                "login": "joe.bloggs@myco.com"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserRequest"
-              },
-              "example": {
-                "firstName": "Joe",
-                "lastName": "Bloggs",
-                "emailAddress": "joe.bloggs@myco.com",
-                "login": "joe.bloggs@myco.com"
-              }
+              "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
+              "nullable": true
             }
           },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Update a user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
-                },
-                "example": {
-                  "id": "asybvrs5",
-                  "emailAddress": "joe.bloggs@myco.com",
-                  "login": "joe.bloggs@myco.com",
-                  "firstName": "Joe",
-                  "lastName": "Bloggs",
-                  "roles": [
-                    {
-                      "id": "customrole1",
-                      "roleId": {
-                        "scope": "default",
-                        "code": "customrole2"
-                      },
-                      "name": "Front Office Administrator",
-                      "description": "Administration role for Front Office staff"
-                    }
-                  ],
-                  "type": "Personal",
-                  "status": "ACTIVE",
-                  "external": false
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
           {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "EarlyAccess"
-      }
-    },
-    "/api/users/{id}/lifecycle/$activate": {
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "[EXPERIMENTAL] SendActivationEmail: Sends an activation email to the User",
-        "description": "Sends an activation email to the specified User",
-        "operationId": "SendActivationEmail",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the User to be activated",
-            "required": true,
+            "name": "histogramInterval",
+            "in": "query",
+            "description": "Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated.",
             "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
               "type": "string",
-              "description": "The unique identifier for the User to be activated"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success"
-          },
-          "400": {
-            "description": "The details of the input related failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LusidProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "oauth2": []
-          }
-        ],
-        "x-fbn-apistatus": "Experimental"
-      }
-    },
-    "/api/users/{id}/lifecycle/$expirepassword": {
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "[EXPERIMENTAL] ExpirePassword: Reset the user's password to a temporary one",
-        "description": "Resets the user's password to a temporary one which is then expired",
-        "operationId": "ExpirePassword",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique identifier for the User having its password reset",
-            "required": true,
-            "schema": {
-              "maxLength": 64,
-              "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
-              "type": "string",
-              "description": "The unique identifier for the User having its password reset"
+              "description": "Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated.",
+              "format": "date-span",
+              "nullable": true
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Reset the user's password",
+            "description": "Success",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfVendorLog"
+                }
+              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TemporaryPassword"
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfVendorLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceListWithHistogramOfVendorLog"
                 }
               }
             }
@@ -3007,7 +993,17 @@
           "400": {
             "description": "The details of the input related failure",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/LusidValidationProblemDetails"
                 }
@@ -3033,37 +1029,63 @@
         "x-fbn-apistatus": "Experimental"
       }
     },
-    "/api/users/{id}/lifecycle/$resetfactors": {
-      "post": {
+    "/api/vendor/{id}": {
+      "get": {
         "tags": [
-          "Users"
+          "Vendor Logs"
         ],
-        "summary": "[EXPERIMENTAL] ResetFactors: Reset MFA factors",
-        "description": "Resets the MFA factors of the specified User",
-        "operationId": "ResetFactors",
+        "summary": "[EXPERIMENTAL] GetVendorLog: Get the log for a specific vendor request.",
+        "operationId": "GetVendorLog",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique identifier for the User having their MFA factors reset",
+            "description": "The identifier of the request to obtain the log for.",
             "required": true,
             "schema": {
               "maxLength": 64,
               "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
               "type": "string",
-              "description": "The unique identifier for the User having their MFA factors reset"
+              "description": "The identifier of the request to obtain the log for."
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Success"
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorLog"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorLog"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorLog"
+                }
+              }
+            }
           },
           "400": {
             "description": "The details of the input related failure",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/LusidValidationProblemDetails"
                 }
@@ -3089,37 +1111,63 @@
         "x-fbn-apistatus": "Experimental"
       }
     },
-    "/api/users/{id}/lifecycle/$resetpassword": {
-      "post": {
+    "/api/vendor/{id}/request": {
+      "get": {
         "tags": [
-          "Users"
+          "Vendor Logs"
         ],
-        "summary": "[EXPERIMENTAL] ResetPassword: Reset Password",
-        "description": "Resets the password of the specified User",
-        "operationId": "ResetPassword",
+        "summary": "[EXPERIMENTAL] GetVendorRequest: Get the request body for a vendor request.",
+        "operationId": "GetVendorRequest",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique identifier for the User having their password reset",
+            "description": "The identifier of the request to obtain the content for.",
             "required": true,
             "schema": {
               "maxLength": 64,
               "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
               "type": "string",
-              "description": "The unique identifier for the User having their password reset"
+              "description": "The identifier of the request to obtain the content for."
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Success"
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorRequest"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorRequest"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorRequest"
+                }
+              }
+            }
           },
           "400": {
             "description": "The details of the input related failure",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/LusidValidationProblemDetails"
                 }
@@ -3145,37 +1193,63 @@
         "x-fbn-apistatus": "Experimental"
       }
     },
-    "/api/users/{id}/lifecycle/$unlock": {
-      "post": {
+    "/api/vendor/{id}/response": {
+      "get": {
         "tags": [
-          "Users"
+          "Vendor Logs"
         ],
-        "summary": "[EXPERIMENTAL] UnlockUser: Unlock User",
-        "description": "Unlocks the specified User",
-        "operationId": "UnlockUser",
+        "summary": "[EXPERIMENTAL] GetVendorResponse: Get the response from a vendor request.",
+        "operationId": "GetVendorResponse",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique identifier for the User to be unlocked",
+            "description": "The identifier of the request to obtain the response for.",
             "required": true,
             "schema": {
               "maxLength": 64,
               "minLength": 1,
-              "pattern": "^[a-zA-Z0-9\\-_]+$",
+              "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
               "type": "string",
-              "description": "The unique identifier for the User to be unlocked"
+              "description": "The identifier of the request to obtain the response for."
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Success"
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VendorResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "The details of the input related failure",
             "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
               "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LusidValidationProblemDetails"
+                }
+              },
+              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/LusidValidationProblemDetails"
                 }
@@ -3275,6 +1349,140 @@
         },
         "additionalProperties": false
       },
+      "AccessEvaluationLog": {
+        "required": [
+          "application",
+          "duration",
+          "id",
+          "timestamp",
+          "user"
+        ],
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "description": "The timestamp of the access evaluation.",
+            "format": "date-time"
+          },
+          "application": {
+            "type": "string",
+            "description": "The name of the application that the request was made from."
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the access evaluation."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "The identifier of the request.",
+            "nullable": true
+          },
+          "sessionId": {
+            "type": "string",
+            "description": "The identifier of the session that the request was made in.",
+            "nullable": true
+          },
+          "user": {
+            "type": "string",
+            "description": "The user who made the request."
+          },
+          "userType": {
+            "type": "string",
+            "description": "The type of the user who made the request.",
+            "nullable": true
+          },
+          "duration": {
+            "type": "number",
+            "description": "The duration of the access evaluation.",
+            "format": "double"
+          },
+          "result": {
+            "type": "string",
+            "description": "The result of the access evaluation.",
+            "nullable": true
+          },
+          "authoritativeRoleId": {
+            "type": "string",
+            "description": "The role that matched the access evaluation to provide a result.",
+            "nullable": true
+          },
+          "authoritativePolicyId": {
+            "type": "string",
+            "description": "The policy that matched the access evaluation to provide a result.",
+            "nullable": true
+          },
+          "authoritativeSelector": {
+            "type": "string",
+            "description": "The selector that matched the access evaluation to provide a result.",
+            "nullable": true
+          },
+          "resourceType": {
+            "type": "string",
+            "description": "The type of the resource that the access evaluation is for.",
+            "nullable": true
+          },
+          "action": {
+            "type": "string",
+            "description": "The action key of the access evaluation.",
+            "nullable": true
+          },
+          "resource": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The ID of the resource that the access evaluation is for. If the ResourceID could not be converted to a dictionary, it will return a single-value dictionary with the key \"resourceId\".",
+            "nullable": true
+          },
+          "resourceFromEffectiveDate": {
+            "type": "string",
+            "description": "The From effective date of the resource.",
+            "nullable": true
+          },
+          "resourceToEffectiveDate": {
+            "type": "string",
+            "description": "The To effective date of the resource.",
+            "nullable": true
+          },
+          "resourceFromAsAt": {
+            "type": "string",
+            "description": "The From AsAt date of the resource.",
+            "nullable": true
+          },
+          "resourceToAsAt": {
+            "type": "string",
+            "description": "The To AsAt date of the resource.",
+            "nullable": true
+          },
+          "accessExecutionTime": {
+            "type": "string",
+            "description": "The execution time of the entitlement.",
+            "nullable": true
+          },
+          "accessAsAtTime": {
+            "type": "string",
+            "description": "The AsAt time of the entitlement.",
+            "nullable": true
+          },
+          "requiredLicencePolicyId": {
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
+            "type": "string",
+            "description": "ID of the required licence policy.",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Holds logged information about an access check performed on an API."
+      },
       "ActionId": {
         "required": [
           "activity",
@@ -3301,411 +1509,219 @@
         },
         "additionalProperties": false
       },
-      "AgreementResponse": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the agreement",
-            "nullable": true
-          },
-          "signedBy": {
-            "type": "string",
-            "description": "UserID (obfuscated) of the user who signed this agreement",
-            "nullable": true
-          },
-          "signedAt": {
-            "type": "string",
-            "description": "Datetime at which the agreement was signed",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Agreement DTO"
-      },
-      "ApiKey": {
+      "AuditData": {
         "required": [
-          "createdDate",
-          "displayName",
-          "id"
+          "action",
+          "category"
         ],
         "type": "object",
         "properties": {
-          "id": {
+          "action": {
             "maxLength": 64,
-            "minLength": 1,
-            "pattern": "^[a-zA-Z0-9\\-_]+$",
-            "type": "string",
-            "description": "The unique Id of the API key"
-          },
-          "displayName": {
-            "maxLength": 512,
-            "minLength": 1,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string",
-            "description": "The display name of the API key"
-          },
-          "createdDate": {
-            "type": "string",
-            "description": "The creation date of the API key",
-            "format": "date-time"
-          },
-          "deactivationDate": {
-            "type": "string",
-            "description": "The deactivation date of the API key",
-            "format": "date-time",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "The metadata of an API key"
-      },
-      "AuthenticationInformation": {
-        "required": [
-          "issuerUrl"
-        ],
-        "type": "object",
-        "properties": {
-          "issuerUrl": {
+            "minLength": 0,
             "type": "string"
           },
-          "samlIdentityProviderId": {
+          "category": {
+            "maxLength": 16,
+            "minLength": 0,
+            "type": "string"
+          },
+          "userId": {
+            "maxLength": 128,
+            "minLength": 0,
             "type": "string",
             "nullable": true
           },
-          "support": {
-            "$ref": "#/components/schemas/SupportAccessExpiry"
-          },
-          "links": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Link"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateApiKey": {
-        "required": [
-          "displayName"
-        ],
-        "type": "object",
-        "properties": {
-          "displayName": {
-            "maxLength": 512,
-            "minLength": 1,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string",
-            "description": "The display name for the API key"
-          },
-          "deactivationDate": {
-            "type": "string",
-            "description": "The optional date at which the key should deactivate",
-            "format": "date-time",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Create an API key"
-      },
-      "CreateApplicationRequest": {
-        "required": [
-          "clientId",
-          "displayName",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "displayName": {
-            "maxLength": 50,
-            "minLength": 1,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string",
-            "description": "The Display Name of the application"
-          },
-          "clientId": {
-            "maxLength": 50,
-            "minLength": 6,
-            "pattern": "^[a-zA-Z][a-zA-Z0-9-]{5,49}",
-            "type": "string",
-            "description": "The OpenID Connect ClientId of the application"
-          },
-          "type": {
-            "maxLength": 20,
-            "minLength": 1,
-            "pattern": "^[a-zA-Z]*$",
-            "type": "string",
-            "description": "The Type of the application. This must be either Native or Web"
-          },
-          "redirectUris": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "A web application's acceptable list of post-login redirect URIs",
-            "nullable": true
-          },
-          "postLogoutRedirectUris": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "A web application's acceptable list of post-logout redirect URIs",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A request to create an application for authenticating the source of token requests"
-      },
-      "CreatedApiKey": {
-        "required": [
-          "createdDate",
-          "displayName",
-          "id",
-          "key"
-        ],
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string",
-            "description": "The API Key value"
-          },
-          "id": {
-            "maxLength": 64,
-            "minLength": 1,
-            "pattern": "^[a-zA-Z0-9\\-_]+$",
-            "type": "string",
-            "description": "The unique Id of the API key"
-          },
-          "displayName": {
-            "maxLength": 512,
-            "minLength": 1,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string",
-            "description": "The display name of the API key"
-          },
-          "createdDate": {
-            "type": "string",
-            "description": "The creation date of the API key",
-            "format": "date-time"
-          },
-          "deactivationDate": {
-            "type": "string",
-            "description": "The deactivation date of the API key",
-            "format": "date-time",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A newly created API key"
-      },
-      "CreateDomainRequest": {
-        "required": [
-          "companyName",
-          "domain",
-          "owner"
-        ],
-        "type": "object",
-        "properties": {
-          "domain": {
-            "maxLength": 25,
-            "minLength": 3,
-            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*$",
-            "type": "string",
-            "description": "The name LUSID domain to create"
-          },
-          "description": {
-            "maxLength": 50,
-            "minLength": 5,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string",
-            "description": "Optional. Free text description of the domain.",
-            "nullable": true
-          },
-          "companyName": {
-            "maxLength": 50,
-            "minLength": 2,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string",
-            "description": "The name of the company to which the domain is registered"
-          },
-          "owner": {
-            "$ref": "#/components/schemas/CreateUserRequest"
-          },
-          "technicalContact": {
-            "$ref": "#/components/schemas/CreateUserRequest"
-          },
-          "billingContact": {
-            "$ref": "#/components/schemas/CreateUserRequest"
-          },
-          "signedAgreements": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Optional. If Terms and Conditions agreements have been signed during the sign up process",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CreateRoleRequest": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "maxLength": 512,
-            "minLength": 1,
-            "pattern": "^[a-zA-Z][a-zA-Z0-9-_ +]{2,100}$",
-            "type": "string",
-            "description": "The role name, which must be unique within the system."
-          },
-          "description": {
+          "message": {
             "maxLength": 1024,
             "minLength": 0,
-            "pattern": "^[\\s\\S]*$",
             "type": "string",
-            "description": "The description for this role",
+            "nullable": true
+          },
+          "resource": {
+            "$ref": "#/components/schemas/Resource"
+          },
+          "detailsType": {
+            "maxLength": 16,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": false,
             "nullable": true
           }
         },
-        "additionalProperties": false,
-        "description": "Specifies the information required to create a new role."
+        "additionalProperties": false
       },
-      "CreateUserRequest": {
+      "AuditDataSummary": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "categories": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuditEntry": {
         "required": [
-          "emailAddress",
-          "firstName",
-          "lastName",
-          "login",
-          "type"
+          "data",
+          "date",
+          "id",
+          "process"
         ],
         "type": "object",
         "properties": {
-          "firstName": {
-            "maxLength": 50,
-            "minLength": 1,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string",
-            "description": "The first name of the user"
+          "id": {
+            "type": "string"
           },
-          "lastName": {
-            "maxLength": 50,
-            "minLength": 2,
-            "pattern": "^[\\s\\S]*$",
+          "date": {
             "type": "string",
-            "description": "The last name of the user"
+            "format": "date-time"
           },
-          "emailAddress": {
-            "maxLength": 80,
-            "minLength": 5,
-            "type": "string",
-            "description": "The user's email address - to which the account validation email will be sent. For user accounts\r\nthis should exactly match the Login."
+          "process": {
+            "$ref": "#/components/schemas/AuditProcess"
           },
-          "login": {
-            "maxLength": 80,
-            "minLength": 5,
-            "type": "string",
-            "description": "The user's login username, in the form of an email address, which must be unique within the system.\r\nFor user accounts this should exactly match the user's email address."
+          "data": {
+            "$ref": "#/components/schemas/AuditData"
           },
-          "roles": {
+          "notes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RoleId"
+              "$ref": "#/components/schemas/AuditEntryNote"
             },
-            "description": "Optional. Any known roles the user should be created with.",
             "nullable": true
-          },
-          "type": {
-            "maxLength": 20,
-            "minLength": 1,
-            "pattern": "^[a-zA-Z]*$",
-            "type": "string",
-            "description": "The type of user (e.g. Personal or Service)"
           }
         },
-        "additionalProperties": false,
-        "description": "Details necessary for creating a new user"
+        "additionalProperties": false
       },
-      "DomainId": {
+      "AuditEntryNote": {
         "required": [
-          "name"
+          "date",
+          "text",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuditProcess": {
+        "required": [
+          "name",
+          "runId",
+          "startTime"
         ],
         "type": "object",
         "properties": {
           "name": {
-            "maxLength": 100,
-            "minLength": 3,
+            "maxLength": 128,
+            "minLength": 0,
+            "type": "string"
+          },
+          "runId": {
+            "type": "string"
+          },
+          "startTime": {
             "type": "string",
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "DomainResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "$ref": "#/components/schemas/DomainId"
-          },
-          "description": {
-            "type": "string",
-            "description": "A description of the domain",
-            "nullable": true
-          },
-          "companyName": {
-            "type": "string",
-            "description": "The company name for the domain",
-            "nullable": true
-          },
-          "owner": {
-            "$ref": "#/components/schemas/UserId"
-          },
-          "billingContact": {
-            "$ref": "#/components/schemas/UserId"
-          },
-          "technicalContact": {
-            "$ref": "#/components/schemas/UserId"
-          },
-          "created": {
-            "type": "string",
-            "description": "The",
             "format": "date-time"
           },
-          "links": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Link"
-            },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "succeeded": {
+            "type": "boolean",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "ErrorDetail": {
+      "AuditProcessSummary": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "description": "Id of the entity this error relates to",
-            "nullable": true
+          "process": {
+            "$ref": "#/components/schemas/AuditProcess"
           },
-          "type": {
-            "type": "string",
-            "description": "Error type",
-            "nullable": true
+          "latestEntry": {
+            "$ref": "#/components/schemas/AuditData"
           },
-          "detail": {
+          "summary": {
+            "$ref": "#/components/schemas/AuditDataSummary"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Bucket": {
+        "type": "object",
+        "properties": {
+          "startTime": {
             "type": "string",
-            "description": "Human readable description of the error",
+            "description": "The bucket's start time as a DateTimeOffset.",
+            "format": "date-time"
+          },
+          "itemCount": {
+            "type": "integer",
+            "description": "The number of items in the bucket.",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A single histogram bucket."
+      },
+      "CreateAuditEntry": {
+        "required": [
+          "data",
+          "process"
+        ],
+        "type": "object",
+        "properties": {
+          "process": {
+            "$ref": "#/components/schemas/AuditProcess"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AuditData"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Details to create an audit entry"
+      },
+      "Histogram": {
+        "type": "object",
+        "properties": {
+          "buckets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Bucket"
+            },
+            "description": "An ordered list of the histogram buckets.",
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "Provides details about an entity error that occured"
+        "description": "A histogram showing an item's count in buckets of equal timespans."
       },
       "IdentifierPartSchema": {
         "required": [
@@ -3803,42 +1819,6 @@
           }
         },
         "additionalProperties": false
-      },
-      "ListUsersResponse": {
-        "type": "object",
-        "properties": {
-          "href": {
-            "type": "string",
-            "description": "Uri of this response",
-            "format": "uri",
-            "nullable": true
-          },
-          "values": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/UserSummary"
-            },
-            "description": "Successful entities, indexed by their id",
-            "nullable": true
-          },
-          "failed": {
-            "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/ErrorDetail"
-            },
-            "description": "Failed entities, indexed by their id",
-            "nullable": true
-          },
-          "links": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Link"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Users directory query response"
       },
       "LusidProblemDetails": {
         "required": [
@@ -3964,41 +1944,6 @@
         },
         "additionalProperties": false
       },
-      "OAuthApplication": {
-        "required": [
-          "clientId",
-          "displayName",
-          "id",
-          "issuer",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          },
-          "displayName": {
-            "maxLength": 512,
-            "minLength": 1,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string"
-          },
-          "secret": {
-            "type": "string",
-            "nullable": true
-          },
-          "clientId": {
-            "type": "string"
-          },
-          "issuer": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -4031,6 +1976,191 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Request": {
+        "type": "object",
+        "properties": {
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "The headers",
+            "nullable": true
+          },
+          "contentLength": {
+            "type": "integer",
+            "description": "The actual length of the body, which may be larger than the data recorded in Finbourne.Insights.WebApi.Dtos.Request.Body\r\n(e.g. if actual Body is large, or not convertible to a string)",
+            "format": "int64",
+            "nullable": true
+          },
+          "contentType": {
+            "type": "string",
+            "description": "The content type",
+            "nullable": true
+          },
+          "body": {
+            "type": "string",
+            "description": "The recorded content.",
+            "nullable": true
+          },
+          "bodyWasTruncated": {
+            "type": "boolean",
+            "description": "Determines if the recorded body was truncated."
+          },
+          "method": {
+            "type": "string",
+            "description": "Method called by the request",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "description": "URL of the request",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO of Finbourne.AspNetCore.Http.TrackingEntry.RequestInformation."
+      },
+      "RequestLog": {
+        "required": [
+          "application",
+          "duration",
+          "httpStatusCode",
+          "id",
+          "outcome",
+          "timestamp",
+          "url",
+          "user",
+          "verb"
+        ],
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "description": "The timestamp of the request.",
+            "format": "date-time"
+          },
+          "application": {
+            "type": "string",
+            "description": "The name of the application that the request was made to."
+          },
+          "id": {
+            "type": "string",
+            "description": "The identifier of the request."
+          },
+          "sessionId": {
+            "type": "string",
+            "description": "The identifier of the session that the request was made in.",
+            "nullable": true
+          },
+          "verb": {
+            "type": "string",
+            "description": "The HTTP verb of the request."
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL of the request."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the request.",
+            "nullable": true
+          },
+          "user": {
+            "type": "string",
+            "description": "The user who made the request."
+          },
+          "userType": {
+            "type": "string",
+            "description": "The type of the user who made the request.",
+            "nullable": true
+          },
+          "operation": {
+            "type": "string",
+            "description": "The API operation invoked by the request.",
+            "nullable": true
+          },
+          "outcome": {
+            "type": "string",
+            "description": "The outcome of the request: Success, Failure or Error."
+          },
+          "duration": {
+            "type": "number",
+            "description": "The duration of the request in milliseconds.",
+            "format": "double"
+          },
+          "httpStatusCode": {
+            "type": "integer",
+            "description": "The status code of the request.",
+            "format": "int32"
+          },
+          "errorCode": {
+            "type": "string",
+            "description": "Error code, if the request had a failure or error.",
+            "nullable": true
+          },
+          "sdkLanguage": {
+            "type": "string",
+            "description": "The language of the SDK used.",
+            "nullable": true
+          },
+          "sdkVersion": {
+            "type": "string",
+            "description": "The version of the SDK used.",
+            "nullable": true
+          },
+          "sourceApplication": {
+            "type": "string",
+            "description": "The name of the application that made the request.",
+            "nullable": true
+          },
+          "correlationId": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The chain of requestIds preceding this request",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Holds logged information about a request performed on an API."
+      },
+      "Resource": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "maxLength": 64,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "identifier": {
+            "maxLength": 128,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -4070,356 +2200,313 @@
         },
         "additionalProperties": false
       },
-      "Role": {
+      "ResourceListOfAuditProcessSummary": {
         "required": [
-          "id",
-          "name"
+          "values"
         ],
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuditProcessSummary"
+            }
           },
-          "roleId": {
-            "$ref": "#/components/schemas/RoleId"
+          "href": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
           },
-          "name": {
-            "type": "string"
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
           },
-          "description": {
+          "nextPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "previousPage": {
             "type": "string",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "RoleId": {
+      "ResourceListWithHistogramOfAccessEvaluationLog": {
         "required": [
-          "code"
+          "values"
         ],
         "type": "object",
         "properties": {
-          "scope": {
-            "maxLength": 100,
-            "minLength": 3,
+          "histogram": {
+            "$ref": "#/components/schemas/Histogram"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessEvaluationLog"
+            }
+          },
+          "href": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "nextPage": {
             "type": "string",
             "nullable": true
           },
-          "code": {
-            "maxLength": 100,
-            "minLength": 3,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "RoleResponse": {
-        "required": [
-          "id",
-          "name",
-          "roleId"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
+          "previousPage": {
             "type": "string",
-            "description": "The role's system supplied unique identifier"
-          },
-          "roleId": {
-            "$ref": "#/components/schemas/RoleId"
-          },
-          "name": {
-            "type": "string",
-            "description": "The role name, which must be unique within the system."
-          },
-          "description": {
-            "type": "string",
-            "description": "The description for this role",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "SupportAccessExpiry": {
-        "required": [
-          "expiry"
-        ],
-        "type": "object",
-        "properties": {
-          "expiry": {
-            "type": "string",
-            "description": "DateTimeOffset at which the access will be revoked",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false,
-        "description": "Time at which the support access expires"
-      },
-      "SupportAccessRequest": {
-        "required": [
-          "duration"
-        ],
-        "type": "object",
-        "properties": {
-          "duration": {
-            "maxLength": 30,
-            "minLength": 2,
-            "pattern": "^P(?!$)((\\d+Y)|(\\d+\\.\\d+Y$))?((\\d+M)|(\\d+\\.\\d+M$))?((\\d+W)|(\\d+\\.\\d+W$))?((\\d+D)|(\\d+\\.\\d+D$))?(T(?=\\d)((\\d+H)|(\\d+\\.\\d+H$))?((\\d+M)|(\\d+\\.\\d+M$))?(\\d+(\\.\\d+)?S)?)??$",
-            "type": "string",
-            "description": "The duration for which access is requested (in any ISO-8601 format)"
           },
-          "description": {
-            "maxLength": 1024,
-            "minLength": 0,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string",
-            "description": "The description of why the support access has been granted (i.e. support ticket numbers)",
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
             "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "A Request to grant support access to your account"
+        "description": "ResourceList with additional aggregation data about the values."
       },
-      "SupportAccessResponse": {
+      "ResourceListWithHistogramOfRequestLog": {
         "required": [
-          "createdAt",
-          "createdBy",
+          "values"
+        ],
+        "type": "object",
+        "properties": {
+          "histogram": {
+            "$ref": "#/components/schemas/Histogram"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RequestLog"
+            }
+          },
+          "href": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "nextPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "previousPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ResourceList with additional aggregation data about the values."
+      },
+      "ResourceListWithHistogramOfVendorLog": {
+        "required": [
+          "values"
+        ],
+        "type": "object",
+        "properties": {
+          "histogram": {
+            "$ref": "#/components/schemas/Histogram"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VendorLog"
+            }
+          },
+          "href": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "nextPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "previousPage": {
+            "type": "string",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ResourceList with additional aggregation data about the values."
+      },
+      "Response": {
+        "type": "object",
+        "properties": {
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "The headers",
+            "nullable": true
+          },
+          "contentLength": {
+            "type": "integer",
+            "description": "The actual length of the body, which may be larger than the data recorded in Finbourne.Insights.WebApi.Dtos.Response.Body\r\n(e.g. if actual Body is large, or not convertible to a string)",
+            "format": "int64",
+            "nullable": true
+          },
+          "contentType": {
+            "type": "string",
+            "description": "The content type",
+            "nullable": true
+          },
+          "body": {
+            "type": "string",
+            "description": "The recorded content.",
+            "nullable": true
+          },
+          "bodyWasTruncated": {
+            "type": "boolean",
+            "description": "Determines if the recorded body was truncated."
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "Http Status Code of the request.",
+            "format": "int32"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO of Finbourne.AspNetCore.Http.TrackingEntry.ResponseInformation."
+      },
+      "ScrollableCollectionOfAuditEntry": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuditEntry"
+            },
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VendorLog": {
+        "required": [
+          "destinationUrl",
           "duration",
-          "expiry",
-          "id"
+          "httpStatusCode",
+          "id",
+          "operation",
+          "outcome",
+          "provider",
+          "requestId",
+          "timestamp",
+          "type",
+          "userId"
         ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "description": "ID of the support access request"
+            "description": "The identifier of a log entry."
+          },
+          "provider": {
+            "type": "string",
+            "description": "The provider or service name."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Timestamp of when the log was generated.",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of log. Possible values: HttpResponse."
+          },
+          "destinationUrl": {
+            "type": "string",
+            "description": "The destination URL of the task."
+          },
+          "operation": {
+            "type": "string",
+            "description": "The operation performed. Possible values: Evaluate."
+          },
+          "outcome": {
+            "type": "string",
+            "description": "The outcome of the operation. Possible values: Success, Failure."
           },
           "duration": {
-            "maxLength": 50,
-            "minLength": 3,
+            "type": "number",
+            "description": "The duration of the operation in ms.",
+            "format": "double"
+          },
+          "httpStatusCode": {
+            "type": "integer",
+            "description": "The status code of the operation.",
+            "format": "int32"
+          },
+          "userId": {
             "type": "string",
-            "description": "The duration for which access is requested (in any ISO-8601 format)"
+            "description": "The user that made the request to LUSID."
           },
-          "description": {
-            "maxLength": 1024,
-            "minLength": 0,
-            "pattern": "^[\\s\\S]*$",
+          "requestId": {
             "type": "string",
-            "description": "The description of why the support access has been granted (i.e. support ticket numbers)",
-            "nullable": true
+            "description": "The ID of the request to LUSID."
           },
-          "createdAt": {
-            "type": "string",
-            "description": "DateTimeOffset at which the access was granted",
-            "format": "date-time"
-          },
-          "expiry": {
-            "type": "string",
-            "description": "DateTimeOffset at which the access will be revoked",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "type": "string",
-            "description": "Obfuscated UserId of the user who granted the support access"
-          },
-          "terminated": {
-            "type": "boolean",
-            "description": "Whether or not that access has been invalidated"
-          },
-          "terminatedAt": {
-            "type": "string",
-            "description": "DateTimeOffset at which the access was invalidated",
-            "format": "date-time",
-            "nullable": true
-          },
-          "terminatedBy": {
-            "type": "string",
-            "description": "Obfuscated UserId of the user who revoked the access",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Timestamped successful response to grant access to your account"
-      },
-      "TemporaryPassword": {
-        "required": [
-          "password"
-        ],
-        "type": "object",
-        "properties": {
-          "password": {
-            "type": "string",
-            "description": "The user's temporary password"
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateRoleRequest": {
-        "type": "object",
-        "properties": {
-          "description": {
-            "maxLength": 1024,
-            "minLength": 0,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string",
-            "description": "The description for this role",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateUserRequest": {
-        "required": [
-          "emailAddress",
-          "firstName",
-          "lastName",
-          "login"
-        ],
-        "type": "object",
-        "properties": {
-          "firstName": {
-            "maxLength": 50,
-            "minLength": 1,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string"
-          },
-          "lastName": {
-            "maxLength": 50,
-            "minLength": 2,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string"
-          },
-          "emailAddress": {
-            "maxLength": 80,
-            "minLength": 5,
-            "type": "string"
-          },
-          "login": {
-            "maxLength": 80,
-            "minLength": 5,
-            "pattern": "^[\\s\\S]*$",
-            "type": "string",
-            "description": "The user's login username, in the form of an email address, which must be unique within the system.\r\nFor user accounts this should exactly match the user's email address."
-          },
-          "roles": {
+          "links": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RoleId"
+              "$ref": "#/components/schemas/Link"
             },
             "nullable": true
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Holds logged information about a request made to an external vendor."
       },
-      "UserId": {
+      "VendorRequest": {
         "required": [
-          "value"
-        ],
-        "type": "object",
-        "properties": {
-          "value": {
-            "maxLength": 100,
-            "minLength": 3,
-            "type": "string",
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UserResponse": {
-        "required": [
-          "emailAddress",
-          "external",
-          "firstName",
           "id",
-          "lastName",
-          "login",
-          "status",
-          "type"
+          "request"
         ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "description": "The user's system supplied unique identifier"
+            "description": "The ID of the log."
           },
-          "emailAddress": {
+          "request": {
             "type": "string",
-            "description": "The user's emailAddress address, which must be unique within the system"
-          },
-          "login": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string",
-            "description": "The user's first name"
-          },
-          "lastName": {
-            "type": "string",
-            "description": "The user's last name"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Role"
-            },
-            "description": "The roles that the user has.",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "description": "The type of user (e.g. Personal or Service)"
-          },
-          "status": {
-            "type": "string",
-            "description": "The status of the user"
-          },
-          "external": {
-            "type": "boolean",
-            "description": "Whether or not the user originates from an external identity system"
-          },
-          "links": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Link"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UserSummary": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The user id",
-            "nullable": true
-          },
-          "login": {
-            "type": "string",
-            "description": "The user login",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "description": "The email address registered for that user",
-            "nullable": true
-          },
-          "firstName": {
-            "type": "string",
-            "description": "User's first name",
-            "nullable": true
-          },
-          "lastName": {
-            "type": "string",
-            "description": "User's last name",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "description": "User's type (Personal, Service...)",
-            "nullable": true
+            "description": "The body of the request."
           },
           "links": {
             "type": "array",
@@ -4430,7 +2517,33 @@
           }
         },
         "additionalProperties": false,
-        "description": "Lightweight view of an user details"
+        "description": "Details of a request made to a vendor service."
+      },
+      "VendorResponse": {
+        "required": [
+          "id",
+          "response"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the log."
+          },
+          "response": {
+            "type": "string",
+            "description": "The body of the response."
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Details of a response to a request made to a vendor service."
       }
     },
     "securitySchemes": {
@@ -4451,49 +2564,34 @@
   ],
   "tags": [
     {
+      "name": "Access Evaluations",
+      "description": "Methods to retrieve access evaluation logs."
+    },
+    {
       "name": "Application Metadata",
-      "description": "Endpoints for querying application metadata"
+      "description": "Metadata about the test application"
     },
     {
-      "name": "Applications",
-      "description": "Endpoints for administering Applications"
+      "name": "Auditing",
+      "description": "Methods for interacting with Auditing"
     },
     {
-      "name": "Authentication",
-      "description": "Endpoints for getting authentication details for the domain"
+      "name": "Requests",
+      "description": "Methods to retrieve logs and content of API requests."
     },
     {
-      "name": "Domains",
-      "description": "Endpoints for administering Domains"
-    },
-    {
-      "name": "Personal Authentication Tokens",
-      "description": "Endpoints for administering one's own Personal Access Tokens"
-    },
-    {
-      "name": "Roles",
-      "description": "Endpoints for administering Roles"
-    },
-    {
-      "name": "Tokens",
-      "description": "Endpoints for administering Users"
-    },
-    {
-      "name": "Users",
-      "description": "Endpoints for querying the users directory"
+      "name": "Vendor Logs",
+      "description": "Methods to retrieve logs and content of requests to vendors."
     }
   ],
   "x-tagGroups": {
     "name": "API",
     "tags": [
+      "Access Evaluations",
       "Application Metadata",
-      "Applications",
-      "Authentication",
-      "Domains",
-      "Personal Authentication Tokens",
-      "Roles",
-      "Tokens",
-      "Users"
+      "Auditing",
+      "Requests",
+      "Vendor Logs"
     ]
   }
 }

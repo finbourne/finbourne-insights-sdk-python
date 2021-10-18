@@ -1,5 +1,7 @@
 # ResourceListWithHistogramOfRequestLog
 
+ResourceList with additional aggregation data about the values.
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

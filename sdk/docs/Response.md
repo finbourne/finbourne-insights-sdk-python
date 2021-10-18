@@ -1,5 +1,7 @@
 # Response
 
+DTO of Finbourne.AspNetCore.Http.TrackingEntry.ResponseInformation.
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

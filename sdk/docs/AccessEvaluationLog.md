@@ -1,5 +1,7 @@
 # AccessEvaluationLog
 
+Holds logged information about an access check performed on an API.
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

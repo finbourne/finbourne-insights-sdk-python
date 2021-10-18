@@ -1,5 +1,7 @@
 # RequestLog
 
+Holds logged information about a request performed on an API.
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

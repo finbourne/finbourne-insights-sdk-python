@@ -1,5 +1,7 @@
 # Bucket
 
+A single histogram bucket.
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
