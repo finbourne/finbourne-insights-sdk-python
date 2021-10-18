@@ -1,13 +1,13 @@
 import unittest
 from finbourne_insights import api as ia
-from finbourne_insights.utilities import ApiClientFactory
+from fbnsdkutilities import ApiClientFactory
 
 
 class InsightsTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        api_client = ApiClientFactory(api_secrets_filename="secrets.json")
+        api_client = ApiClientFactory(ia, api_secrets_filename="secrets.json")
         cls.requests_api = api_client.build(ia.RequestsApi)
 
     def test_requests(self):
