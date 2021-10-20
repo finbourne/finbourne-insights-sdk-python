@@ -4,14 +4,14 @@
 
 | branch | status |
 | --- | --- |
-| `master` |  ![PyPI](https://img.shields.io/pypi/v/finbourne-insights-sdk?color=blue)
+| `master` |  ![PyPI](https://img.shields.io/pypi/v/finbourne-insights-sdk-preview?color=blue)
 
 ## Installation
 
 The PyPi package for the Insights SDK can installed using the following:
 
 ```
-$ pip install finbourne-insights-sdk finbourne-sdk-utilities
+$ pip install finbourne-insights-sdk-preview finbourne-sdk-utilities
 ```
 
 ## Usage
