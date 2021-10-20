@@ -4,7 +4,7 @@
 
 | branch | status |
 | --- | --- |
-| `master` |  ![PyPI](https://img.shields.io/pypi/v/lusid-insights-sdk-preview?color=blue)
+| `master` |  ![PyPI](https://img.shields.io/pypi/v/finbourne-insights-sdk-preview?color=blue)
 
 ## Installation
 
