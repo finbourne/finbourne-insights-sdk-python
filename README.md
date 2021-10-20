@@ -2,6 +2,9 @@
 
 ![LUSID_by_Finbourne](https://content.finbourne.com/LUSID_repo.png)
 
+| branch | status |
+| --- | --- |
+| `master` |  ![PyPI](https://img.shields.io/pypi/v/lusid-insights-sdk-preview?color=blue)
 
 ## Installation
 
