@@ -45,7 +45,7 @@ with open("./finbourne_insights/__version__.py") as fp:
     exec(fp.read(), version)
 
 setup(
-    name='finbourne-insights-sdk',
+    name='finbourne-insights-sdk-preview',
     version=version['__version__'],
     description='Python SDK for FINBOURNE Insights API',
     url='https://github.com/finbourne/finbourne-insights-sdk-python',
