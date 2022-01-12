@@ -8,9 +8,9 @@
       "url": "https://www.finbourne.com",
       "email": "info@finbourne.com"
     },
-    "version": "0.0.237",
+    "version": "0.0.238",
     "x-logo": {
-      "url": "https://content.finbourne.com/LUSID-header.png",
+      "url": "https://www.lusid.com/app/assets/logo_white.png",
       "backgroundColor": "#415464"
     },
     "description": "FINBOURNE Technology"
@@ -34,7 +34,7 @@
             "in": "query",
             "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
             "schema": {
-              "maxLength": 2147483647,
+              "maxLength": 16384,
               "minLength": 0,
               "pattern": "^[\\s\\S]*$",
               "type": "string",
@@ -47,7 +47,7 @@
             "in": "query",
             "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
             "schema": {
-              "maxLength": 2147483647,
+              "maxLength": 16384,
               "minLength": 1,
               "pattern": "^[\\s\\S]*$",
               "type": "string",
@@ -532,7 +532,7 @@
             "in": "query",
             "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
             "schema": {
-              "maxLength": 2147483647,
+              "maxLength": 16384,
               "minLength": 0,
               "pattern": "^[\\s\\S]*$",
               "type": "string",
@@ -545,7 +545,7 @@
             "in": "query",
             "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
             "schema": {
-              "maxLength": 2147483647,
+              "maxLength": 16384,
               "minLength": 1,
               "pattern": "^[\\s\\S]*$",
               "type": "string",
@@ -910,7 +910,7 @@
             "in": "query",
             "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
             "schema": {
-              "maxLength": 2147483647,
+              "maxLength": 16384,
               "minLength": 0,
               "pattern": "^[\\s\\S]*$",
               "type": "string",
@@ -923,7 +923,7 @@
             "in": "query",
             "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
             "schema": {
-              "maxLength": 2147483647,
+              "maxLength": 16384,
               "minLength": 1,
               "pattern": "^[\\s\\S]*$",
               "type": "string",
