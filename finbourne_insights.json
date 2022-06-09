@@ -8,7 +8,7 @@
       "url": "https://www.finbourne.com",
       "email": "info@finbourne.com"
     },
-    "version": "0.0.291",
+    "version": "0.0.293",
     "x-logo": {
       "url": "https://www.lusid.com/app/assets/logo_white.png",
       "backgroundColor": "#415464"
@@ -61,7 +61,7 @@
             "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
             "schema": {
               "maximum": 10000,
-              "minimum": 0,
+              "minimum": 1,
               "type": "integer",
               "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
               "format": "int32"
