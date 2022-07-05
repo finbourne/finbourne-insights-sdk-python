@@ -8,7 +8,7 @@
       "url": "https://www.finbourne.com",
       "email": "info@finbourne.com"
     },
-    "version": "0.0.300",
+    "version": "0.0.301",
     "x-logo": {
       "url": "https://www.lusid.com/app/assets/logo_white.png",
       "backgroundColor": "#415464"
@@ -524,7 +524,7 @@
         "tags": [
           "Requests"
         ],
-        "summary": "[BETA] ListRequestLogs: Get the logs for API requests.",
+        "summary": "[EARLY ACCESS] ListRequestLogs: Get the logs for API requests.",
         "operationId": "ListRequestLogs",
         "parameters": [
           {
@@ -648,7 +648,7 @@
             "oauth2": []
           }
         ],
-        "x-fbn-apistatus": "Beta"
+        "x-fbn-apistatus": "EarlyAccess"
       }
     },
     "/api/requests/{id}": {
@@ -656,7 +656,7 @@
         "tags": [
           "Requests"
         ],
-        "summary": "[BETA] GetRequestLog: Get the log for a specific API request.",
+        "summary": "[EARLY ACCESS] GetRequestLog: Get the log for a specific API request.",
         "operationId": "GetRequestLog",
         "parameters": [
           {
@@ -730,7 +730,7 @@
             "oauth2": []
           }
         ],
-        "x-fbn-apistatus": "Beta"
+        "x-fbn-apistatus": "EarlyAccess"
       }
     },
     "/api/requests/{id}/request": {
@@ -738,7 +738,7 @@
         "tags": [
           "Requests"
         ],
-        "summary": "[BETA] GetRequest: Get the request content for a specific API request.",
+        "summary": "[EARLY ACCESS] GetRequest: Get the request content for a specific API request.",
         "operationId": "GetRequest",
         "parameters": [
           {
@@ -812,7 +812,7 @@
             "oauth2": []
           }
         ],
-        "x-fbn-apistatus": "Beta"
+        "x-fbn-apistatus": "EarlyAccess"
       }
     },
     "/api/requests/{id}/response": {
@@ -820,7 +820,7 @@
         "tags": [
           "Requests"
         ],
-        "summary": "[BETA] GetResponse: Get the response for a specific API request.",
+        "summary": "[EARLY ACCESS] GetResponse: Get the response for a specific API request.",
         "operationId": "GetResponse",
         "parameters": [
           {
@@ -894,7 +894,7 @@
             "oauth2": []
           }
         ],
-        "x-fbn-apistatus": "Beta"
+        "x-fbn-apistatus": "EarlyAccess"
       }
     },
     "/api/vendor": {
