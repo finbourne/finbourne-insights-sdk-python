@@ -66,11 +66,3 @@ from finbourne_insights.models.vendor_log import VendorLog
 from finbourne_insights.models.vendor_request import VendorRequest
 from finbourne_insights.models.vendor_response import VendorResponse
 
-# import utilities into sdk package
-from finbourne_insights.utilities.api_client_builder import ApiClientBuilder
-from finbourne_insights.utilities.api_configuration import ApiConfiguration
-from finbourne_insights.utilities.api_configuration_loader import ApiConfigurationLoader
-from finbourne_insights.utilities.refreshing_token import RefreshingToken
-
-# import tcp utilities
-from finbourne_insights.tcp.tcp_keep_alive_probes import TCPKeepAlivePoolManager, TCPKeepAliveProxyManager

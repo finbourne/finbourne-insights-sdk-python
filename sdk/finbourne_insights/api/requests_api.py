@@ -23,12 +23,6 @@ from finbourne_insights.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
 )
-from finbourne_insights.models.lusid_problem_details import LusidProblemDetails
-from finbourne_insights.models.lusid_validation_problem_details import LusidValidationProblemDetails
-from finbourne_insights.models.request import Request
-from finbourne_insights.models.request_log import RequestLog
-from finbourne_insights.models.resource_list_with_histogram_of_request_log import ResourceListWithHistogramOfRequestLog
-from finbourne_insights.models.response import Response
 
 
 class RequestsApi(object):
@@ -100,10 +94,10 @@ class RequestsApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :return: Returns the result object, the HTTP status code, and the headers.
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: (Request, int, HTTPHeaderDict)
+        :rtype: tuple(Request, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -117,8 +111,7 @@ class RequestsApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth',
-                '_headers'
+                '_request_auth'
             ]
         )
 
@@ -151,7 +144,7 @@ class RequestsApi(object):
 
         query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        header_params = {}
 
         form_params = []
         local_var_files = {}
@@ -162,11 +155,6 @@ class RequestsApi(object):
             ['text/plain', 'application/json', 'text/json'])  # noqa: E501
 
         header_params['Accept-Encoding'] = "gzip, deflate, br"
-
-
-        # set the LUSID header
-        header_params['X-LUSID-SDK-Language'] = 'Python'
-        header_params['X-LUSID-SDK-Version'] = '0.0.320'
 
         # Authentication setting
         auth_settings = ['oauth2']  # noqa: E501
@@ -250,10 +238,10 @@ class RequestsApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :return: Returns the result object, the HTTP status code, and the headers.
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: (RequestLog, int, HTTPHeaderDict)
+        :rtype: tuple(RequestLog, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -267,8 +255,7 @@ class RequestsApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth',
-                '_headers'
+                '_request_auth'
             ]
         )
 
@@ -301,7 +288,7 @@ class RequestsApi(object):
 
         query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        header_params = {}
 
         form_params = []
         local_var_files = {}
@@ -312,11 +299,6 @@ class RequestsApi(object):
             ['text/plain', 'application/json', 'text/json'])  # noqa: E501
 
         header_params['Accept-Encoding'] = "gzip, deflate, br"
-
-
-        # set the LUSID header
-        header_params['X-LUSID-SDK-Language'] = 'Python'
-        header_params['X-LUSID-SDK-Version'] = '0.0.320'
 
         # Authentication setting
         auth_settings = ['oauth2']  # noqa: E501
@@ -400,10 +382,10 @@ class RequestsApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :return: Returns the result object, the HTTP status code, and the headers.
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: (Response, int, HTTPHeaderDict)
+        :rtype: tuple(Response, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -417,8 +399,7 @@ class RequestsApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth',
-                '_headers'
+                '_request_auth'
             ]
         )
 
@@ -451,7 +432,7 @@ class RequestsApi(object):
 
         query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        header_params = {}
 
         form_params = []
         local_var_files = {}
@@ -462,11 +443,6 @@ class RequestsApi(object):
             ['text/plain', 'application/json', 'text/json'])  # noqa: E501
 
         header_params['Accept-Encoding'] = "gzip, deflate, br"
-
-
-        # set the LUSID header
-        header_params['X-LUSID-SDK-Language'] = 'Python'
-        header_params['X-LUSID-SDK-Version'] = '0.0.320'
 
         # Authentication setting
         auth_settings = ['oauth2']  # noqa: E501
@@ -566,10 +542,10 @@ class RequestsApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :return: Returns the result object, the HTTP status code, and the headers.
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: (ResourceListWithHistogramOfRequestLog, int, HTTPHeaderDict)
+        :rtype: tuple(ResourceListWithHistogramOfRequestLog, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -587,8 +563,7 @@ class RequestsApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth',
-                '_headers'
+                '_request_auth'
             ]
         )
 
@@ -645,7 +620,7 @@ class RequestsApi(object):
         if 'histogram_interval' in local_var_params and local_var_params['histogram_interval'] is not None:  # noqa: E501
             query_params.append(('histogramInterval', local_var_params['histogram_interval']))  # noqa: E501
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        header_params = {}
 
         form_params = []
         local_var_files = {}
@@ -656,11 +631,6 @@ class RequestsApi(object):
             ['text/plain', 'application/json', 'text/json'])  # noqa: E501
 
         header_params['Accept-Encoding'] = "gzip, deflate, br"
-
-
-        # set the LUSID header
-        header_params['X-LUSID-SDK-Language'] = 'Python'
-        header_params['X-LUSID-SDK-Version'] = '0.0.320'
 
         # Authentication setting
         auth_settings = ['oauth2']  # noqa: E501

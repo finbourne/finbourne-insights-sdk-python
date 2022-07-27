@@ -23,13 +23,6 @@ from finbourne_insights.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
 )
-from finbourne_insights.models.audit_entry import AuditEntry
-from finbourne_insights.models.create_audit_entry import CreateAuditEntry
-from finbourne_insights.models.lusid_problem_details import LusidProblemDetails
-from finbourne_insights.models.lusid_validation_problem_details import LusidValidationProblemDetails
-from finbourne_insights.models.problem_details import ProblemDetails
-from finbourne_insights.models.resource_list_of_audit_process_summary import ResourceListOfAuditProcessSummary
-from finbourne_insights.models.scrollable_collection_of_audit_entry import ScrollableCollectionOfAuditEntry
 
 
 class AuditingApi(object):
@@ -101,10 +94,10 @@ class AuditingApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :return: Returns the result object, the HTTP status code, and the headers.
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: (AuditEntry, int, HTTPHeaderDict)
+        :rtype: tuple(AuditEntry, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -118,8 +111,7 @@ class AuditingApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth',
-                '_headers'
+                '_request_auth'
             ]
         )
 
@@ -138,7 +130,7 @@ class AuditingApi(object):
 
         query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        header_params = {}
 
         form_params = []
         local_var_files = {}
@@ -241,10 +233,10 @@ class AuditingApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :return: Returns the result object, the HTTP status code, and the headers.
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: (ResourceListOfAuditProcessSummary, int, HTTPHeaderDict)
+        :rtype: tuple(ResourceListOfAuditProcessSummary, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -257,8 +249,7 @@ class AuditingApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth',
-                '_headers'
+                '_request_auth'
             ]
         )
 
@@ -277,7 +268,7 @@ class AuditingApi(object):
 
         query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        header_params = {}
 
         form_params = []
         local_var_files = {}
@@ -288,11 +279,6 @@ class AuditingApi(object):
             ['application/json'])  # noqa: E501
 
         header_params['Accept-Encoding'] = "gzip, deflate, br"
-
-
-        # set the LUSID header
-        header_params['X-LUSID-SDK-Language'] = 'Python'
-        header_params['X-LUSID-SDK-Version'] = '0.0.320'
 
         # Authentication setting
         auth_settings = ['oauth2']  # noqa: E501
@@ -389,10 +375,10 @@ class AuditingApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :return: Returns the result object, the HTTP status code, and the headers.
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: (ScrollableCollectionOfAuditEntry, int, HTTPHeaderDict)
+        :rtype: tuple(ScrollableCollectionOfAuditEntry, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -409,8 +395,7 @@ class AuditingApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth',
-                '_headers'
+                '_request_auth'
             ]
         )
 
@@ -437,7 +422,7 @@ class AuditingApi(object):
         if 'state' in local_var_params and local_var_params['state'] is not None:  # noqa: E501
             query_params.append(('state', local_var_params['state']))  # noqa: E501
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        header_params = {}
 
         form_params = []
         local_var_files = {}
@@ -448,11 +433,6 @@ class AuditingApi(object):
             ['application/json'])  # noqa: E501
 
         header_params['Accept-Encoding'] = "gzip, deflate, br"
-
-
-        # set the LUSID header
-        header_params['X-LUSID-SDK-Language'] = 'Python'
-        header_params['X-LUSID-SDK-Version'] = '0.0.320'
 
         # Authentication setting
         auth_settings = ['oauth2']  # noqa: E501

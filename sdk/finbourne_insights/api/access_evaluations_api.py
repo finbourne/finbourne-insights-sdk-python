@@ -23,10 +23,6 @@ from finbourne_insights.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
 )
-from finbourne_insights.models.access_evaluation_log import AccessEvaluationLog
-from finbourne_insights.models.lusid_problem_details import LusidProblemDetails
-from finbourne_insights.models.lusid_validation_problem_details import LusidValidationProblemDetails
-from finbourne_insights.models.resource_list_with_histogram_of_access_evaluation_log import ResourceListWithHistogramOfAccessEvaluationLog
 
 
 class AccessEvaluationsApi(object):
@@ -98,10 +94,10 @@ class AccessEvaluationsApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :return: Returns the result object, the HTTP status code, and the headers.
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: (AccessEvaluationLog, int, HTTPHeaderDict)
+        :rtype: tuple(AccessEvaluationLog, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -115,8 +111,7 @@ class AccessEvaluationsApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth',
-                '_headers'
+                '_request_auth'
             ]
         )
 
@@ -149,7 +144,7 @@ class AccessEvaluationsApi(object):
 
         query_params = []
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        header_params = {}
 
         form_params = []
         local_var_files = {}
@@ -160,11 +155,6 @@ class AccessEvaluationsApi(object):
             ['text/plain', 'application/json', 'text/json'])  # noqa: E501
 
         header_params['Accept-Encoding'] = "gzip, deflate, br"
-
-
-        # set the LUSID header
-        header_params['X-LUSID-SDK-Language'] = 'Python'
-        header_params['X-LUSID-SDK-Version'] = '0.0.320'
 
         # Authentication setting
         auth_settings = ['oauth2']  # noqa: E501
@@ -264,10 +254,10 @@ class AccessEvaluationsApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
-        :return: Returns the result object, the HTTP status code, and the headers.
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: (ResourceListWithHistogramOfAccessEvaluationLog, int, HTTPHeaderDict)
+        :rtype: tuple(ResourceListWithHistogramOfAccessEvaluationLog, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -285,8 +275,7 @@ class AccessEvaluationsApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth',
-                '_headers'
+                '_request_auth'
             ]
         )
 
@@ -343,7 +332,7 @@ class AccessEvaluationsApi(object):
         if 'histogram_interval' in local_var_params and local_var_params['histogram_interval'] is not None:  # noqa: E501
             query_params.append(('histogramInterval', local_var_params['histogram_interval']))  # noqa: E501
 
-        header_params = dict(local_var_params.get('_headers', {}))
+        header_params = {}
 
         form_params = []
         local_var_files = {}
@@ -354,11 +343,6 @@ class AccessEvaluationsApi(object):
             ['text/plain', 'application/json', 'text/json'])  # noqa: E501
 
         header_params['Accept-Encoding'] = "gzip, deflate, br"
-
-
-        # set the LUSID header
-        header_params['X-LUSID-SDK-Language'] = 'Python'
-        header_params['X-LUSID-SDK-Version'] = '0.0.320'
 
         # Authentication setting
         auth_settings = ['oauth2']  # noqa: E501
