@@ -4,14 +4,14 @@ All URIs are relative to *https://fbn-ci.lusid.com/insights*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_access_evaluation_log**](AccessEvaluationsApi.md#get_access_evaluation_log) | **GET** /api/access/{id} | [EXPERIMENTAL] GetAccessEvaluationLog: Get the log for a specific access evaluation.
+[**get_access_evaluation_log**](AccessEvaluationsApi.md#get_access_evaluation_log) | **GET** /api/access/{id} | [EXPERIMENTAL] GetAccessEvaluationLog: Get the log for a specific access evaluation.  This endpoint will be deprecated in the near future.
 [**list_access_evaluation_logs**](AccessEvaluationsApi.md#list_access_evaluation_logs) | **GET** /api/access | [EXPERIMENTAL] ListAccessEvaluationLogs: List the logs for access evaluations.
 
 
 # **get_access_evaluation_log**
 > AccessEvaluationLog get_access_evaluation_log(id)
 
-[EXPERIMENTAL] GetAccessEvaluationLog: Get the log for a specific access evaluation.
+[EXPERIMENTAL] GetAccessEvaluationLog: Get the log for a specific access evaluation.  This endpoint will be deprecated in the near future.
 
 ### Example
 
@@ -46,7 +46,7 @@ with finbourne_insights.ApiClient(configuration) as api_client:
     id = 'id_example' # str | The identifier of the access evaluation to obtain the log for.
 
     try:
-        # [EXPERIMENTAL] GetAccessEvaluationLog: Get the log for a specific access evaluation.
+        # [EXPERIMENTAL] GetAccessEvaluationLog: Get the log for a specific access evaluation.  This endpoint will be deprecated in the near future.
         api_response = api_instance.get_access_evaluation_log(id)
         pprint(api_response)
     except ApiException as e:

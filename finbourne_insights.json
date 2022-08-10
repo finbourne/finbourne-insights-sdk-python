@@ -8,7 +8,7 @@
       "url": "https://www.finbourne.com",
       "email": "info@finbourne.com"
     },
-    "version": "0.0.340",
+    "version": "0.0.342",
     "x-logo": {
       "url": "https://www.lusid.com/app/assets/logo_white.png",
       "backgroundColor": "#415464"
@@ -158,7 +158,7 @@
         "tags": [
           "Access Evaluations"
         ],
-        "summary": "[EXPERIMENTAL] GetAccessEvaluationLog: Get the log for a specific access evaluation.",
+        "summary": "[EXPERIMENTAL] GetAccessEvaluationLog: Get the log for a specific access evaluation.\r\nThis endpoint will be deprecated in the near future.",
         "operationId": "GetAccessEvaluationLog",
         "parameters": [
           {
