@@ -8,7 +8,7 @@
       "url": "https://www.finbourne.com",
       "email": "info@finbourne.com"
     },
-    "version": "0.0.364",
+    "version": "0.0.366",
     "x-logo": {
       "url": "https://www.lusid.com/app/assets/logo_white.png",
       "backgroundColor": "#415464"
@@ -29,6 +29,30 @@
         "summary": "[EXPERIMENTAL] ListAccessEvaluationLogs: List the logs for access evaluations.",
         "operationId": "ListAccessEvaluationLogs",
         "parameters": [
+          {
+            "name": "startAt",
+            "in": "query",
+            "description": "Start date from which point to fetch logs.",
+            "schema": {
+              "type": "string",
+              "description": "Start date from which point to fetch logs.",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-nullable": true
+          },
+          {
+            "name": "endAt",
+            "in": "query",
+            "description": "End date to which point to fetch logs.",
+            "schema": {
+              "type": "string",
+              "description": "End date to which point to fetch logs.",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-nullable": true
+          },
           {
             "name": "filter",
             "in": "query",
