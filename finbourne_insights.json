@@ -8,7 +8,7 @@
       "url": "https://www.finbourne.com",
       "email": "info@finbourne.com"
     },
-    "version": "0.0.407",
+    "version": "0.0.408",
     "x-logo": {
       "url": "https://www.lusid.com/app/assets/logo_white.png",
       "backgroundColor": "#415464"
@@ -35,9 +35,7 @@
             "description": "Start date from which point to fetch logs.",
             "schema": {
               "type": "string",
-              "description": "Start date from which point to fetch logs.",
-              "format": "date-time",
-              "nullable": true
+              "format": "date-time"
             },
             "x-nullable": true
           },
@@ -47,9 +45,7 @@
             "description": "End date to which point to fetch logs.",
             "schema": {
               "type": "string",
-              "description": "End date to which point to fetch logs.",
-              "format": "date-time",
-              "nullable": true
+              "format": "date-time"
             },
             "x-nullable": true
           },
@@ -61,9 +57,7 @@
               "maxLength": 16384,
               "minLength": 0,
               "pattern": "^[\\s\\S]*$",
-              "type": "string",
-              "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -74,9 +68,7 @@
               "maxLength": 16384,
               "minLength": 1,
               "pattern": "^[\\s\\S]*$",
-              "type": "string",
-              "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -87,7 +79,6 @@
               "maximum": 10000,
               "minimum": 1,
               "type": "integer",
-              "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
               "format": "int32"
             },
             "x-nullable": true
@@ -100,9 +91,7 @@
               "maxLength": 500,
               "minLength": 1,
               "pattern": "^[a-zA-Z0-9\\+/]*={0,3}$",
-              "type": "string",
-              "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -111,9 +100,7 @@
             "description": "The interval for an included histogram of the logs",
             "schema": {
               "type": "string",
-              "description": "The interval for an included histogram of the logs",
-              "format": "date-span",
-              "nullable": true
+              "format": "date-span"
             }
           }
         ],
@@ -194,8 +181,7 @@
               "maxLength": 70,
               "minLength": 1,
               "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
-              "type": "string",
-              "description": "The identifier of the access evaluation to obtain the log for."
+              "type": "string"
             }
           }
         ],
@@ -265,7 +251,7 @@
           "Auditing"
         ],
         "summary": "[EARLY ACCESS] ListEntries: Get the audit entries.",
-        "description": "This will never be {null}, though it may be empty.",
+        "description": "This will never be `null`, though it may be empty.",
         "operationId": "ListEntries",
         "parameters": [
           {
@@ -273,9 +259,7 @@
             "in": "query",
             "description": "The filter to be applied to the results.",
             "schema": {
-              "type": "string",
-              "description": "The filter to be applied to the results.",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -283,9 +267,7 @@
             "in": "query",
             "description": "The order to return the entries in.",
             "schema": {
-              "type": "string",
-              "description": "The order to return the entries in.",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -294,7 +276,6 @@
             "description": "The maximum number of entries to return.",
             "schema": {
               "type": "integer",
-              "description": "The maximum number of entries to return.",
               "format": "int32",
               "default": 1000
             },
@@ -305,9 +286,7 @@
             "in": "query",
             "description": "The scrolling state, used to iterate through the data set.",
             "schema": {
-              "type": "string",
-              "description": "The scrolling state, used to iterate through the data set.",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -409,7 +388,7 @@
         },
         "responses": {
           "201": {
-            "description": "Success",
+            "description": "Created",
             "content": {
               "application/json": {
                 "schema": {
@@ -463,7 +442,7 @@
           "Auditing"
         ],
         "summary": "[EARLY ACCESS] GetProcesses: Get the latest audit entry for each process.",
-        "description": "This will never be {null}, though it may be empty.",
+        "description": "This will never be `null`, though it may be empty.",
         "operationId": "GetProcesses",
         "responses": {
           "200": {
@@ -559,9 +538,7 @@
               "maxLength": 16384,
               "minLength": 0,
               "pattern": "^[\\s\\S]*$",
-              "type": "string",
-              "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -572,9 +549,7 @@
               "maxLength": 16384,
               "minLength": 1,
               "pattern": "^[\\s\\S]*$",
-              "type": "string",
-              "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -585,7 +560,6 @@
               "maximum": 10000,
               "minimum": 0,
               "type": "integer",
-              "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
               "format": "int32"
             },
             "x-nullable": true
@@ -598,9 +572,7 @@
               "maxLength": 500,
               "minLength": 1,
               "pattern": "^[a-zA-Z0-9\\+/]*={0,3}$",
-              "type": "string",
-              "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -609,9 +581,7 @@
             "description": "Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated.",
             "schema": {
               "type": "string",
-              "description": "Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated.",
-              "format": "date-span",
-              "nullable": true
+              "format": "date-span"
             }
           }
         ],
@@ -692,8 +662,7 @@
               "maxLength": 64,
               "minLength": 1,
               "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
-              "type": "string",
-              "description": "The identifier of the request to obtain the log for."
+              "type": "string"
             }
           }
         ],
@@ -774,8 +743,7 @@
               "maxLength": 64,
               "minLength": 1,
               "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
-              "type": "string",
-              "description": "The identifier of the request to obtain the content for."
+              "type": "string"
             }
           }
         ],
@@ -856,8 +824,7 @@
               "maxLength": 64,
               "minLength": 1,
               "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
-              "type": "string",
-              "description": "The identifier of the request to obtain the response for."
+              "type": "string"
             }
           }
         ],
@@ -937,9 +904,7 @@
               "maxLength": 16384,
               "minLength": 0,
               "pattern": "^[\\s\\S]*$",
-              "type": "string",
-              "description": "Expression to filter the result set. Read more about <see href=\"https://support.lusid.com/filtering-results-from-lusid\"> filtering results from LUSID</see>.",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -950,9 +915,7 @@
               "maxLength": 16384,
               "minLength": 1,
               "pattern": "^[\\s\\S]*$",
-              "type": "string",
-              "description": "Order the results by these fields. Use the '-' sign to denote descending order e.g. -MyFieldName. Multiple fields can be denoted by a comma e.g. -MyFieldName,AnotherFieldName,-AFurtherFieldName",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -963,7 +926,6 @@
               "maximum": 10000,
               "minimum": 0,
               "type": "integer",
-              "description": "When paginating, only return this number of records. The minimum value is 0 and the maximum is 10000.",
               "format": "int32"
             },
             "x-nullable": true
@@ -976,9 +938,7 @@
               "maxLength": 500,
               "minLength": 1,
               "pattern": "^[a-zA-Z0-9\\+/]*={0,3}$",
-              "type": "string",
-              "description": "Encoded page string returned from a previous search result that will retrieve the next page of data. When this field is supplied, filter and sortby fields should not be supplied.",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -987,9 +947,7 @@
             "description": "Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated.",
             "schema": {
               "type": "string",
-              "description": "Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated.",
-              "format": "date-span",
-              "nullable": true
+              "format": "date-span"
             }
           }
         ],
@@ -1070,8 +1028,7 @@
               "maxLength": 64,
               "minLength": 1,
               "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
-              "type": "string",
-              "description": "The identifier of the request to obtain the log for."
+              "type": "string"
             }
           }
         ],
@@ -1152,8 +1109,7 @@
               "maxLength": 64,
               "minLength": 1,
               "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
-              "type": "string",
-              "description": "The identifier of the request to obtain the content for."
+              "type": "string"
             }
           }
         ],
@@ -1234,8 +1190,7 @@
               "maxLength": 64,
               "minLength": 1,
               "pattern": "^[a-zA-Z0-9\\-_:\\+]+$",
-              "type": "string",
-              "description": "The identifier of the request to obtain the response for."
+              "type": "string"
             }
           }
         ],
@@ -1310,6 +1265,7 @@
         "type": "object",
         "properties": {
           "description": {
+            "minLength": 1,
             "type": "string"
           },
           "action": {
@@ -1348,6 +1304,7 @@
             "nullable": true
           },
           "description": {
+            "minLength": 1,
             "type": "string"
           },
           "actions": {
@@ -1389,10 +1346,12 @@
             "format": "date-time"
           },
           "application": {
+            "minLength": 1,
             "type": "string",
             "description": "The name of the application that the request was made from."
           },
           "id": {
+            "minLength": 1,
             "type": "string",
             "description": "The ID of the access evaluation."
           },
@@ -1407,6 +1366,7 @@
             "nullable": true
           },
           "user": {
+            "minLength": 1,
             "type": "string",
             "description": "The user who made the request."
           },
@@ -1453,7 +1413,8 @@
           "resource": {
             "type": "object",
             "additionalProperties": {
-              "type": "string"
+              "type": "string",
+              "nullable": true
             },
             "description": "The ID of the resource that the access evaluation is for. If the ResourceID could not be converted to a dictionary, it will return a single-value dictionary with the key \"resourceId\".",
             "nullable": true
@@ -1572,8 +1533,6 @@
             "nullable": true
           },
           "details": {
-            "type": "object",
-            "additionalProperties": false,
             "nullable": true
           }
         },
@@ -1608,6 +1567,7 @@
         "type": "object",
         "properties": {
           "id": {
+            "minLength": 1,
             "type": "string"
           },
           "date": {
@@ -1639,9 +1599,11 @@
         "type": "object",
         "properties": {
           "userId": {
+            "minLength": 1,
             "type": "string"
           },
           "text": {
+            "minLength": 1,
             "type": "string"
           },
           "date": {
@@ -1665,6 +1627,7 @@
             "type": "string"
           },
           "runId": {
+            "minLength": 1,
             "type": "string"
           },
           "startTime": {
@@ -1762,12 +1725,15 @@
             "format": "int32"
           },
           "name": {
+            "minLength": 1,
             "type": "string"
           },
           "displayName": {
+            "minLength": 1,
             "type": "string"
           },
           "description": {
+            "minLength": 1,
             "type": "string"
           },
           "required": {
@@ -1798,7 +1764,7 @@
             }
           },
           "actions": {
-            "minLength": 1,
+            "minItems": 1,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ActionId"
@@ -1852,6 +1818,7 @@
         "type": "object",
         "properties": {
           "name": {
+            "minLength": 1,
             "type": "string"
           },
           "errorDetails": {
@@ -1888,15 +1855,6 @@
           "instance": {
             "type": "string",
             "nullable": true
-          },
-          "extensions": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object",
-              "additionalProperties": false
-            },
-            "nullable": true,
-            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -1909,6 +1867,7 @@
         "type": "object",
         "properties": {
           "name": {
+            "minLength": 1,
             "type": "string"
           },
           "errorDetails": {
@@ -1955,15 +1914,6 @@
           "instance": {
             "type": "string",
             "nullable": true
-          },
-          "extensions": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object",
-              "additionalProperties": false
-            },
-            "nullable": true,
-            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -1991,15 +1941,6 @@
           "instance": {
             "type": "string",
             "nullable": true
-          },
-          "extensions": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object",
-              "additionalProperties": false
-            },
-            "nullable": true,
-            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -2079,10 +2020,12 @@
             "format": "date-time"
           },
           "application": {
+            "minLength": 1,
             "type": "string",
             "description": "The name of the application that the request was made to."
           },
           "id": {
+            "minLength": 1,
             "type": "string",
             "description": "The identifier of the request."
           },
@@ -2092,10 +2035,12 @@
             "nullable": true
           },
           "verb": {
+            "minLength": 1,
             "type": "string",
             "description": "The HTTP verb of the request."
           },
           "url": {
+            "minLength": 1,
             "type": "string",
             "description": "The URL of the request."
           },
@@ -2105,6 +2050,7 @@
             "nullable": true
           },
           "user": {
+            "minLength": 1,
             "type": "string",
             "description": "The user who made the request."
           },
@@ -2119,6 +2065,7 @@
             "nullable": true
           },
           "outcome": {
+            "minLength": 1,
             "type": "string",
             "description": "The outcome of the request: Success, Failure or Error."
           },
@@ -2460,10 +2407,12 @@
         "type": "object",
         "properties": {
           "id": {
+            "minLength": 1,
             "type": "string",
             "description": "The identifier of a log entry."
           },
           "provider": {
+            "minLength": 1,
             "type": "string",
             "description": "The provider or service name."
           },
@@ -2473,18 +2422,22 @@
             "format": "date-time"
           },
           "type": {
+            "minLength": 1,
             "type": "string",
             "description": "Type of log. Possible values: HttpResponse."
           },
           "destinationUrl": {
+            "minLength": 1,
             "type": "string",
             "description": "The destination URL of the task."
           },
           "operation": {
+            "minLength": 1,
             "type": "string",
             "description": "The operation performed. Possible values: Evaluate."
           },
           "outcome": {
+            "minLength": 1,
             "type": "string",
             "description": "The outcome of the operation. Possible values: Success, Failure."
           },
@@ -2499,10 +2452,12 @@
             "format": "int32"
           },
           "userId": {
+            "minLength": 1,
             "type": "string",
             "description": "The user that made the request to LUSID."
           },
           "requestId": {
+            "minLength": 1,
             "type": "string",
             "description": "The ID of the request to LUSID."
           },
@@ -2525,10 +2480,12 @@
         "type": "object",
         "properties": {
           "id": {
+            "minLength": 1,
             "type": "string",
             "description": "The ID of the log."
           },
           "request": {
+            "minLength": 1,
             "type": "string",
             "description": "The body of the request."
           },
@@ -2551,10 +2508,12 @@
         "type": "object",
         "properties": {
           "id": {
+            "minLength": 1,
             "type": "string",
             "description": "The ID of the log."
           },
           "response": {
+            "minLength": 1,
             "type": "string",
             "description": "The body of the response."
           },

@@ -76,7 +76,7 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Success |  -  |
+**201** | Created |  -  |
 **429** | There have been too many recent requests, retry later (using the RETRY-AFTER header value as the delay). |  -  |
 **400** | The details of the input related failure |  -  |
 **0** | Error response |  -  |
@@ -88,7 +88,7 @@ Name | Type | Description  | Notes
 
 [EARLY ACCESS] GetProcesses: Get the latest audit entry for each process.
 
-This will never be {null}, though it may be empty.
+This will never be `null`, though it may be empty.
 
 ### Example
 
@@ -158,7 +158,7 @@ This endpoint does not need any parameter.
 
 [EARLY ACCESS] ListEntries: Get the audit entries.
 
-This will never be {null}, though it may be empty.
+This will never be `null`, though it may be empty.
 
 ### Example
 
