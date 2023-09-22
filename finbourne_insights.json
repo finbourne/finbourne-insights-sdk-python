@@ -8,7 +8,7 @@
       "url": "https://www.finbourne.com",
       "email": "info@finbourne.com"
     },
-    "version": "0.0.735",
+    "version": "0.0.736",
     "x-logo": {
       "url": "https://www.lusid.com/app/assets/logo_white.png",
       "backgroundColor": "#415464"
@@ -26,7 +26,7 @@
         "tags": [
           "Access Evaluations"
         ],
-        "summary": "[EXPERIMENTAL] ListAccessEvaluationLogs: List the logs for access evaluations.",
+        "summary": "[EARLY ACCESS] ListAccessEvaluationLogs: List the logs for access evaluations.",
         "operationId": "ListAccessEvaluationLogs",
         "parameters": [
           {
@@ -161,7 +161,7 @@
             "oauth2": []
           }
         ],
-        "x-fbn-apistatus": "Experimental"
+        "x-fbn-apistatus": "EarlyAccess"
       }
     },
     "/api/access/{id}": {
@@ -169,7 +169,7 @@
         "tags": [
           "Access Evaluations"
         ],
-        "summary": "[EXPERIMENTAL] GetAccessEvaluationLog: Get the log for a specific access evaluation.\r\nThis endpoint will be deprecated in the near future.",
+        "summary": "[EARLY ACCESS] GetAccessEvaluationLog: Get the log for a specific access evaluation.\r\nThis endpoint will be deprecated in the near future.",
         "operationId": "GetAccessEvaluationLog",
         "parameters": [
           {
@@ -242,7 +242,7 @@
             "oauth2": []
           }
         ],
-        "x-fbn-apistatus": "Experimental"
+        "x-fbn-apistatus": "EarlyAccess"
       }
     },
     "/api/auditing/entries": {
