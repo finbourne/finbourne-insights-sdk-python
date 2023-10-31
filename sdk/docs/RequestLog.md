@@ -23,6 +23,7 @@ Name | Type | Description | Notes
 **sdk_version** | **str** | The version of the SDK used. | [optional] 
 **source_application** | **str** | The name of the application that made the request. | [optional] 
 **correlation_id** | **list[str]** | The chain of requestIds preceding this request | [optional] 
+**impersonating_user** | **str** | The impersonating user. Only present if the request is an impersonated one | [optional] 
 **links** | [**list[Link]**](Link.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
