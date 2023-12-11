@@ -1,10 +1,14 @@
+# Deprecated
+
+Please note that this repository is deprecated and will be archived early 2024.
+
+All functionality is now contained, in the [finbourne-insights-sdk-python](https://github.com/finbourne/finbourne-insights-sdk-python) repository on the `main` branch.
+
 # FINBOURNE Insights Python SDK
 
 ![LUSID_by_Finbourne](https://content.finbourne.com/LUSID_repo.png)
 
-| branch | status |
-| --- | --- |
-| `master` |  ![PyPI](https://img.shields.io/pypi/v/finbourne-insights-sdk-preview?color=blue)
+![PyPI](https://img.shields.io/pypi/v/finbourne-insights-sdk-preview?color=blue)
 
 ## Installation
 
