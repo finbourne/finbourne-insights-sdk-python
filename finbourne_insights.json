@@ -8,7 +8,7 @@
       "url": "https://www.finbourne.com",
       "email": "info@finbourne.com"
     },
-    "version": "0.0.764",
+    "version": "0.0.765",
     "x-logo": {
       "url": "https://www.lusid.com/app/assets/logo_white.png",
       "backgroundColor": "#415464"
@@ -479,7 +479,7 @@
         "tags": [
           "Application Metadata"
         ],
-        "summary": "[EARLY ACCESS] ListAccessControlledResources: Get resources available for access control",
+        "summary": "ListAccessControlledResources: Get resources available for access control",
         "description": "Get the comprehensive set of resources that are available for access control",
         "operationId": "ListAccessControlledResources",
         "responses": {
@@ -519,7 +519,7 @@
             "oauth2": []
           }
         ],
-        "x-fbn-apistatus": "EarlyAccess"
+        "x-fbn-apistatus": "Stable"
       }
     },
     "/api/requests": {
@@ -527,7 +527,7 @@
         "tags": [
           "Requests"
         ],
-        "summary": "[EARLY ACCESS] ListRequestLogs: Get the logs for API requests.",
+        "summary": "ListRequestLogs: Get the logs for API requests.",
         "operationId": "ListRequestLogs",
         "parameters": [
           {
@@ -642,7 +642,7 @@
             "oauth2": []
           }
         ],
-        "x-fbn-apistatus": "EarlyAccess"
+        "x-fbn-apistatus": "Stable"
       }
     },
     "/api/requests/{id}": {
@@ -650,7 +650,7 @@
         "tags": [
           "Requests"
         ],
-        "summary": "[EARLY ACCESS] GetRequestLog: Get the log for a specific API request.",
+        "summary": "GetRequestLog: Get the log for a specific API request.",
         "operationId": "GetRequestLog",
         "parameters": [
           {
@@ -723,7 +723,7 @@
             "oauth2": []
           }
         ],
-        "x-fbn-apistatus": "EarlyAccess"
+        "x-fbn-apistatus": "Stable"
       }
     },
     "/api/requests/{id}/request": {
@@ -731,7 +731,7 @@
         "tags": [
           "Requests"
         ],
-        "summary": "[EARLY ACCESS] GetRequest: Get the request content for a specific API request.",
+        "summary": "GetRequest: Get the request content for a specific API request.",
         "operationId": "GetRequest",
         "parameters": [
           {
@@ -804,7 +804,7 @@
             "oauth2": []
           }
         ],
-        "x-fbn-apistatus": "EarlyAccess"
+        "x-fbn-apistatus": "Stable"
       }
     },
     "/api/requests/{id}/response": {
@@ -812,7 +812,7 @@
         "tags": [
           "Requests"
         ],
-        "summary": "[EARLY ACCESS] GetResponse: Get the response for a specific API request.",
+        "summary": "GetResponse: Get the response for a specific API request.",
         "operationId": "GetResponse",
         "parameters": [
           {
@@ -885,7 +885,7 @@
             "oauth2": []
           }
         ],
-        "x-fbn-apistatus": "EarlyAccess"
+        "x-fbn-apistatus": "Stable"
       }
     },
     "/api/vendor": {

@@ -4,16 +4,16 @@ All URIs are relative to *https://fbn-ci.lusid.com/insights*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_request**](RequestsApi.md#get_request) | **GET** /api/requests/{id}/request | [EARLY ACCESS] GetRequest: Get the request content for a specific API request.
-[**get_request_log**](RequestsApi.md#get_request_log) | **GET** /api/requests/{id} | [EARLY ACCESS] GetRequestLog: Get the log for a specific API request.
-[**get_response**](RequestsApi.md#get_response) | **GET** /api/requests/{id}/response | [EARLY ACCESS] GetResponse: Get the response for a specific API request.
-[**list_request_logs**](RequestsApi.md#list_request_logs) | **GET** /api/requests | [EARLY ACCESS] ListRequestLogs: Get the logs for API requests.
+[**get_request**](RequestsApi.md#get_request) | **GET** /api/requests/{id}/request | GetRequest: Get the request content for a specific API request.
+[**get_request_log**](RequestsApi.md#get_request_log) | **GET** /api/requests/{id} | GetRequestLog: Get the log for a specific API request.
+[**get_response**](RequestsApi.md#get_response) | **GET** /api/requests/{id}/response | GetResponse: Get the response for a specific API request.
+[**list_request_logs**](RequestsApi.md#list_request_logs) | **GET** /api/requests | ListRequestLogs: Get the logs for API requests.
 
 
 # **get_request**
 > Request get_request(id)
 
-[EARLY ACCESS] GetRequest: Get the request content for a specific API request.
+GetRequest: Get the request content for a specific API request.
 
 ### Example
 
@@ -48,7 +48,7 @@ with finbourne_insights.ApiClient(configuration) as api_client:
     id = 'id_example' # str | The identifier of the request to obtain the content for.
 
     try:
-        # [EARLY ACCESS] GetRequest: Get the request content for a specific API request.
+        # GetRequest: Get the request content for a specific API request.
         api_response = api_instance.get_request(id)
         pprint(api_response)
     except ApiException as e:
@@ -86,7 +86,7 @@ Name | Type | Description  | Notes
 # **get_request_log**
 > RequestLog get_request_log(id)
 
-[EARLY ACCESS] GetRequestLog: Get the log for a specific API request.
+GetRequestLog: Get the log for a specific API request.
 
 ### Example
 
@@ -121,7 +121,7 @@ with finbourne_insights.ApiClient(configuration) as api_client:
     id = 'id_example' # str | The identifier of the request to obtain the log for.
 
     try:
-        # [EARLY ACCESS] GetRequestLog: Get the log for a specific API request.
+        # GetRequestLog: Get the log for a specific API request.
         api_response = api_instance.get_request_log(id)
         pprint(api_response)
     except ApiException as e:
@@ -159,7 +159,7 @@ Name | Type | Description  | Notes
 # **get_response**
 > Response get_response(id)
 
-[EARLY ACCESS] GetResponse: Get the response for a specific API request.
+GetResponse: Get the response for a specific API request.
 
 ### Example
 
@@ -194,7 +194,7 @@ with finbourne_insights.ApiClient(configuration) as api_client:
     id = 'id_example' # str | The identifier of the request to obtain the response for.
 
     try:
-        # [EARLY ACCESS] GetResponse: Get the response for a specific API request.
+        # GetResponse: Get the response for a specific API request.
         api_response = api_instance.get_response(id)
         pprint(api_response)
     except ApiException as e:
@@ -232,7 +232,7 @@ Name | Type | Description  | Notes
 # **list_request_logs**
 > ResourceListWithHistogramOfRequestLog list_request_logs(filter=filter, sort_by=sort_by, limit=limit, page=page, histogram_interval=histogram_interval)
 
-[EARLY ACCESS] ListRequestLogs: Get the logs for API requests.
+ListRequestLogs: Get the logs for API requests.
 
 ### Example
 
@@ -271,7 +271,7 @@ page = 'page_example' # str | Encoded page string returned from a previous searc
 histogram_interval = 'histogram_interval_example' # str | Optional interval to use in a histogram of the returned values. If not provided, no histogram will be generated. (optional)
 
     try:
-        # [EARLY ACCESS] ListRequestLogs: Get the logs for API requests.
+        # ListRequestLogs: Get the logs for API requests.
         api_response = api_instance.list_request_logs(filter=filter, sort_by=sort_by, limit=limit, page=page, histogram_interval=histogram_interval)
         pprint(api_response)
     except ApiException as e:
