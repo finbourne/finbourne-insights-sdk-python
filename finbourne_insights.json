@@ -9,11 +9,51 @@
       "url": "https://www.finbourne.com",
       "email": "info@finbourne.com"
     },
-    "version": "0.0.806",
+    "version": "0.0.807",
     "x-logo": {
       "url": "https://www.lusid.com/app/assets/logo_white.png",
       "backgroundColor": "#415464"
-    }
+    },
+    "x-fbn-error-codes": {
+      "-1": {
+        "title": "Unknown error",
+        "description": "An unexpected error was encountered on our side."
+      },
+      "144": {
+        "title": "Duplicate In Parameter Set"
+      },
+      "150": {
+        "title": "Elastic Search Error"
+      },
+      "151": {
+        "title": "Invalid Parameter Value"
+      },
+      "181": {
+        "title": "Data Filter Application Failure"
+      },
+      "182": {
+        "title": "Search Failed"
+      },
+      "411": {
+        "title": "Sort Field Does Not Exist"
+      },
+      "653": {
+        "title": "Request File Not Found"
+      },
+      "678": {
+        "title": "Log not found"
+      },
+      "689": {
+        "title": "The supplied pagination token is invalid"
+      },
+      "692": {
+        "title": "This endpoint does not support impersonation"
+      },
+      "871": {
+        "title": "The specified impersonated user does not exist"
+      }
+    },
+    "x-fbn-description": "Insights is LUSID's troubleshooting, monitoring and audit application. It enables you to quickly identify issues in failed requests, and offers a detailed view of your system's operations."
   },
   "servers": [
     {
